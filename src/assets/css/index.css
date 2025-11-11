@@ -24,7 +24,7 @@ body {
   position: relative;
   width: min(90vw, 970px);
   aspect-ratio: 210 / 297;
-  background-image: url('https://allmoving.com.br/wp-content/uploads/2025/11/bg.png');
+  background-image: url('/bg.png');
   background-size: cover;
   background-position: center;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
@@ -66,7 +66,7 @@ body {
   appearance: none;
   width: 1rem;
   height: 1rem;
-  background-image: url('https://allmoving.com.br/wp-content/uploads/2025/11/teste.png');
+  background-image: url('/teste.png');
   background-size: 100% 100%;
   background-position: center;
   border: none;
@@ -76,7 +76,7 @@ body {
 }
 
 .trained:checked {
-  background-image: url('https://allmoving.com.br/wp-content/uploads/2025/11/treinado.png');
+  background-image: url('/Survival.png');
 }
 
 .skill-name {
