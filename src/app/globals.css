@@ -220,6 +220,20 @@
   mask-image: none;
 }
 
+.logo-red {
+  width: 140px;
+  height: 40px;
+  background-color: rgb(220 38 38); /* Tailwind red-600 */
+  -webkit-mask-image: url('/logo.png');
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: contain;
+  mask-image: url('/logo.png');
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+}
+
 select#classes_icon {
   position: absolute;
   aspect-ratio: 1/1;
