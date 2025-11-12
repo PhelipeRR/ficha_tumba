@@ -27,8 +27,6 @@ const MaskedImageUpload: React.FC<MaskedImageUploadProps> = ({
       const reader = new FileReader();
       reader.onload = (evt) => setImageSrc(String(evt.target?.result || ""));
       reader.readAsDataURL(file);
-      setPosX(50);
-      setPosY(50);
     }
   };
 
