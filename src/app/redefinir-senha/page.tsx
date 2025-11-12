@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { api } from "@/lib/api";
 import Link from "next/link";
 
 export default function RedefinirSenhaPage() {
@@ -13,20 +14,15 @@ export default function RedefinirSenhaPage() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("/api/redefinir-senha", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-      if (!res.ok) {
-        const data = await res.json();
-        const messages = Object.values<string[]>(data.errors || {}).flat();
-        setError(messages.join(". "));
-        return;
-      }
+      const data = await api.recoverStart(email);
       setSent(true);
-    } catch (err) {
-      setError("Falha ao conectar ao servidor.");
+      // opcional: exibir link de preview em dev
+      if (data.previewUrl) {
+        // você pode armazenar para mostrar no UI; aqui só logamos
+        console.info("Preview URL:", data.previewUrl);
+      }
+    } catch (err: any) {
+      setError(String(err?.message || "Erro ao iniciar recuperação"));
     } finally {
       setLoading(false);
     }
@@ -35,7 +31,7 @@ export default function RedefinirSenhaPage() {
   return (
     <main className="flex-1 bg-red-600 py-8 px-4 flex items-center justify-center">
       <div className="mx-auto max-w-md">
-        <div className="bg-card border border-border rounded-lg p-6 shadow-sm">
+        <div className="bg-card border-2 border-yellow-600 rounded-lg p-6 shadow-sm">
           <div className="flex flex-col items-center mb-4">
             <div className="logo-red" role="img" aria-label="Logo" />
           </div>
