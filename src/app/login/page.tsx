@@ -1,11 +1,12 @@
 "use client";
+import { Suspense } from "react";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { api } from "@/lib/api";
 import Link from "next/link";
 import { useAuth } from "@/lib/auth";
 
-export default function LoginPage() {
+function LoginContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const nextParam = searchParams.get("next") || "/";
@@ -118,4 +119,22 @@ export default function LoginPage() {
       </div>
     </main>
   );
+}
+
+export default function LoginPage() {
+  // Envolve o conteúdo em Suspense para uso de useSearchParams sem erro de build
+  return (
+    <Suspense fallback={(
+      <main className="flex-1 bg-white py-8 px-4 flex items-center justify-center">
+        <div className="mx-auto max-w-md">
+          <div className="bg-card border-2 border-yellow-600 rounded-lg p-6 shadow-sm">
+            <h1 className="text-2xl font-semibold mb-1">Entrar</h1>
+            <p className="text-sm text-muted-foreground">Carregando…</p>
+          </div>
+        </div>
+      </main>
+    )}>
+      <LoginContent />
+    </Suspense>
+  )
 }

@@ -1,13 +1,16 @@
 "use client";
+import { Suspense } from "react";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { api } from "@/lib/api";
 import Link from "next/link";
+import { useAuth } from "@/lib/auth";
 
-export default function CadastroPage() {
+function CadastroContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const nextParam = searchParams.get("next") || "/";
+  const { login } = useAuth();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,12 +28,8 @@ export default function CadastroPage() {
     setLoading(true);
   try {
       const data = await api.signup(email, password, name || null);
-      if (typeof window !== "undefined") {
-        window.localStorage.setItem("token", data.token);
-        window.localStorage.setItem("user", JSON.stringify(data.user));
-        const maxAge = 60 * 60 * 24 * 7; // 7 dias
-        document.cookie = `token=${data.token}; Path=/; SameSite=Lax; Max-Age=${maxAge}`;
-      }
+      // Atualiza contexto (inclui salvar token/user e cookie)
+      login(data.token, data.user);
       // redireciona para rota protegida (ou home)
       router.replace(nextParam);
     } catch (err: any) {
@@ -141,4 +140,22 @@ export default function CadastroPage() {
       </div>
     </main>
   );
+}
+
+export default function CadastroPage() {
+  // Envolve o conteúdo em Suspense para uso de useSearchParams sem erro de build
+  return (
+    <Suspense fallback={(
+      <main className="flex-1 bg-white py-8 px-4 flex items-center justify-center">
+        <div className="mx-auto max-w-md">
+          <div className="bg-card border-2 border-yellow-600 rounded-lg p-6 shadow-sm">
+            <h1 className="text-2xl font-semibold mb-1">Cadastre-se</h1>
+            <p className="text-sm text-muted-foreground">Carregando…</p>
+          </div>
+        </div>
+      </main>
+    )}>
+      <CadastroContent />
+    </Suspense>
+  )
 }
