@@ -1,6 +1,8 @@
 import React, { useMemo, useState } from "react";
 import SkillRow from "./SkillRow";
 import type { AttrKey, SkillBase } from "../types";
+import ClassesSelect from "./ClassesSkills";
+
 
 const SKILLS: SkillBase[] = [
   { nome: "Acrobacia", atr: "des" },
@@ -49,6 +51,36 @@ const RPGSheet: React.FC = () => {
     SKILLS.map((s) => ({ ...s, trained: false }))
   );
 
+  const handleClassSelect = (classe: string) => {
+    const trainedByClass: Record<string, string[]> = {
+      arcanista: ["Conhecimento", "Misticismo"],
+      barbaro: ["Luta", "Fortitude"],
+      bardo: ["Atuação", "Diplomacia", "Enganação"],
+      bucaneiro: ["Pilotagem", "Acrobacia", "Reflexos"],
+      cacador: ["Sobrevivência", "Percepção", "Furtividade"],
+      cavaleiro: ["Cavalgar", "Guerra", "Fortitude"],
+      clerigo: ["Religião", "Cura"],
+      druida: ["Sobrevivência", "Natureza", "Cura"],
+      frade: ["Luta", "Reflexos", "Vontade"],
+      guerreiro: ["Luta", "Fortitude", "Reflexos"],
+      inventor: ["Ofício 1", "Conhecimento", "Misticismo"],
+      ladino: ["Furtividade", "Ladinagem", "Enganação"],
+      lutador: ["Luta", "Atletismo"],
+      nobre: ["Diplomacia", "Nobreza"],
+      paladino: ["Religião", "Vontade"],
+      pajem: ["Cura", "Intuição"],
+    };
+
+    const trainedSkills = trainedByClass[classe] || [];
+
+    setSkills((prev) =>
+      prev.map((s) => ({
+        ...s,
+        trained: trainedSkills.includes(s.nome),
+      }))
+    );
+  };
+
   const computedSkills = useMemo(
     () =>
       skills.map((skill) => {
@@ -89,6 +121,9 @@ const RPGSheet: React.FC = () => {
           />
         ))}
       </div>
+
+       <ClassesSelect onSelectClass={handleClassSelect} />
+
 
       {/* Inputs de atributos - mesma posição do HTML original */}
       <div className="attr destreza">

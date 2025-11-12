@@ -105,6 +105,13 @@ body {
   mask-image: none;
 }
 
+select#classes_icon {
+    position: absolute;
+    top: 4.7em;
+    right: 24em;
+    z-index: 99;
+}
+
 select.atr {
   width: 24%;
   height: 1rem;
