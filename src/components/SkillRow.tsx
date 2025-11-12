@@ -1,5 +1,5 @@
 import React from "react";
-import type { AttrKey } from "../types";
+import type { AttrKey } from "../types/types";
 
 interface Skill {
   nome: string;

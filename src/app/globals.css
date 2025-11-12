@@ -1,0 +1,339 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@font-face {
+  font-family: 'CloisterBlack';
+  src: url('/fonts/CloisterBlack.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+:root {
+  --background: oklch(0.96 0.01 40);
+  --foreground: oklch(0.2 0.02 30);
+  --card: oklch(0.98 0.005 40);
+  --card-foreground: oklch(0.2 0.02 30);
+  --popover: oklch(0.98 0.005 40);
+  --popover-foreground: oklch(0.2 0.02 30);
+  --primary: oklch(0.55 0.24 25);
+  --primary-foreground: oklch(0.98 0.01 40);
+  --secondary: oklch(0.65 0.18 50);
+  --secondary-foreground: oklch(0.98 0.01 40);
+  --muted: oklch(0.88 0.02 40);
+  --muted-foreground: oklch(0.5 0.03 30);
+  --accent: oklch(0.7 0.15 45);
+  --accent-foreground: oklch(0.98 0.01 40);
+  --destructive: oklch(0.55 0.24 25);
+  --destructive-foreground: oklch(0.98 0.01 40);
+  --border: oklch(0.85 0.02 40);
+  --input: oklch(0.85 0.02 40);
+  --ring: oklch(0.55 0.24 25);
+  --chart-1: oklch(0.55 0.24 25);
+  --chart-2: oklch(0.65 0.18 50);
+  --chart-3: oklch(0.6 0.2 35);
+  --chart-4: oklch(0.7 0.15 45);
+  --chart-5: oklch(0.5 0.22 20);
+  --radius: 0.5rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+
+}
+
+.dark {
+  --background: oklch(0.15 0.01 30);
+  --foreground: oklch(0.95 0.01 40);
+  --card: oklch(0.18 0.015 30);
+  --card-foreground: oklch(0.95 0.01 40);
+  --popover: oklch(0.18 0.015 30);
+  --popover-foreground: oklch(0.95 0.01 40);
+  --primary: oklch(0.6 0.24 25);
+  --primary-foreground: oklch(0.98 0.01 40);
+  --secondary: oklch(0.7 0.18 50);
+  --secondary-foreground: oklch(0.98 0.01 40);
+  --muted: oklch(0.25 0.02 30);
+  --muted-foreground: oklch(0.65 0.02 40);
+  --accent: oklch(0.7 0.15 45);
+  --accent-foreground: oklch(0.98 0.01 40);
+  --destructive: oklch(0.6 0.24 25);
+  --destructive-foreground: oklch(0.98 0.01 40);
+  --border: oklch(0.3 0.02 30);
+  --input: oklch(0.3 0.02 30);
+  --ring: oklch(0.6 0.24 25);
+  --chart-1: oklch(0.6 0.24 25);
+  --chart-2: oklch(0.7 0.18 50);
+  --chart-3: oklch(0.65 0.2 35);
+  --chart-4: oklch(0.75 0.15 45);
+  --chart-5: oklch(0.55 0.22 20);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(0.269 0 0);
+  --sidebar-ring: oklch(0.439 0 0);
+}
+
+@theme inline {
+  --font-sans: "Geist", "Geist Fallback";
+  --font-mono: "Geist Mono", "Geist Mono Fallback";
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+.sheet {
+  position: relative;
+  width: min(90vw, 970px);
+  aspect-ratio: 210 / 297;
+  background-image: url('/bg.png');
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  font-size: clamp(10px, 1.1vw, 16px);
+  font-family: 'CloisterBlack';
+
+}
+
+.imgUpload {
+  position: absolute;
+  aspect-ratio: 210 / 297;
+  width: min(90vw, 970px);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  left: 0%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.skills-column {
+  position: absolute;
+  top: 13.4%;
+  left: 8.15%;
+  width: 27.5%;
+  border-radius: 12px;
+}
+
+.skill-row {
+  position: relative;
+  width: 90%;
+  height: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background: #f0dbb1;
+}
+
+.trained {
+  appearance: none;
+  width: 1rem;
+  height: 1rem;
+  background-image: url('/teste.png');
+  background-size: 100% 100%;
+  background-position: center;
+  border: none;
+  cursor: pointer;
+  margin-right: 0.4rem;
+  flex-shrink: 0;
+}
+
+.trained:checked {
+  background-image: url('/Survival.png');
+}
+
+.skill-name {
+  flex: 1;
+  font-size: 1em;
+  color: #2d1a0b;
+  user-select: none;
+}
+
+.masked-image {
+  -webkit-mask-image: var(--mask-url, url('/masks/personagem-1.png'));
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: cover;
+  -webkit-mask-composite: destination-in;
+
+  mask-image: var(--mask-url, url('/masks/personagem-1.png'));
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+  mask-composite: intersect;
+}
+
+.no-mask .masked-image {
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+select#classes_icon {
+  position: absolute;
+  aspect-ratio: 1/1;
+  top: 4.6%;
+  right: 26.5%;
+  z-index: 99;
+  border: 1px solid #000000;
+  border-radius: 4px;
+  width: 15%;
+  height: 1.5%;
+  font-size: 0.9em;
+}
+
+select.atr {
+  width: 24%;
+  height: 1rem;
+  font-size: 0.7em;
+  background: transparent;
+  border: 1px solid #000000;
+  border-radius: 4px;
+  margin-left: 3%;
+}
+
+input.value {
+  width: 15%;
+  height: 100%;
+  text-align: center;
+  font-size: 0.8em;
+  border: 1px solid #000000;
+  border-radius: 4px;
+  background: transparent;
+  margin-left: 3%;
+}
+
+.attr {
+  position: absolute;
+  width: 10%;
+  aspect-ratio: 1/1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.attr input {
+  width: 70%;
+  height: 70%;
+  text-align: center;
+  font-size: 3em;
+  background: transparent;
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.attr.destreza {
+  top: 11.6%;
+  right: 24.5%;
+}
+
+.attr.forca {
+  top: 14.3%;
+  right: 11.3%;
+}
+
+.attr.constituicao {
+  top: 13.6%;
+  right: 38%;
+}
+
+.attr.inteligencia {
+  top: 20%;
+  right: 48.5%;
+}
+
+.attr.sabedoria {
+  top: 29%;
+  right: 53%;
+}
+
+.attr.carisma {
+  top: 38.7%;
+  right: 51%;
+}
+
+.level {
+  position: absolute;
+  top: 3.5%;
+  right: 21%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: transparent;
+  width: 6%;
+  aspect-ratio: 1/1;
+}
+
+.level input {
+  width: 70%;
+  height: 70%;
+  text-align: center;
+  font-size: 2em;
+  background: transparent;
+  border: none;
+  outline: none;
+  box-shadow: none;
+}

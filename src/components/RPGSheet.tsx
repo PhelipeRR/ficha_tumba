@@ -1,6 +1,7 @@
+"use client";
 import React, { useMemo, useState } from "react";
 import SkillRow from "./SkillRow";
-import type { AttrKey, SkillBase } from "../types";
+import type { AttrKey, SkillBase } from "../types/types";
 import ClassesSelect from "./ClassesSkills";
 
 
@@ -36,7 +37,11 @@ const SKILLS: SkillBase[] = [
   { nome: "Vontade", atr: "sab" },
 ];
 
-const RPGSheet: React.FC = () => {
+interface RPGSheetProps {
+  children?: React.ReactNode;
+}
+
+const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
   const [attrs, setAttrs] = useState<Record<AttrKey, number>>({
     des: 0,
     for: 0,
@@ -107,7 +112,8 @@ const RPGSheet: React.FC = () => {
   };
 
   return (
-    <div className="sheet font-[CloisterBlack]">
+    <div className="sheet font-[CloisterBlack] relative">
+      {children}
       {/* Coluna de perícias */}
       <div className="skills-column">
         {computedSkills.map((skill) => (
@@ -122,7 +128,7 @@ const RPGSheet: React.FC = () => {
         ))}
       </div>
 
-       <ClassesSelect onSelectClass={handleClassSelect} />
+      <ClassesSelect onSelectClass={handleClassSelect} />
 
 
       {/* Inputs de atributos - mesma posição do HTML original */}
