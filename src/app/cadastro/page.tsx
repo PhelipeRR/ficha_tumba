@@ -1,8 +1,13 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { api } from "@/lib/api";
 import Link from "next/link";
 
 export default function CadastroPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const nextParam = searchParams.get("next") || "/";
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,30 +23,36 @@ export default function CadastroPage() {
       return;
     }
     setLoading(true);
-    try {
-      const res = await fetch("/api/cadastro", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password, confirm }),
-      });
-      if (!res.ok) {
-        const data = await res.json();
-        const messages = Object.values<string[]>(data.errors || {}).flat();
-        setError(messages.join(". "));
-        return;
+  try {
+      const data = await api.signup(email, password, name || null);
+      if (typeof window !== "undefined") {
+        window.localStorage.setItem("token", data.token);
+        window.localStorage.setItem("user", JSON.stringify(data.user));
+        const maxAge = 60 * 60 * 24 * 7; // 7 dias
+        document.cookie = `token=${data.token}; Path=/; SameSite=Lax; Max-Age=${maxAge}`;
       }
-      // sucesso: aqui você pode redirecionar ou mostrar feedback
-    } catch (err) {
-      setError("Falha ao conectar ao servidor.");
+      // redireciona para rota protegida (ou home)
+      router.replace(nextParam);
+    } catch (err: any) {
+      setError(String(err?.message || "Erro ao cadastrar"));
     } finally {
       setLoading(false);
     }
   };
 
+  // Redireciona automaticamente se já estiver autenticado
+  useEffect(() => {
+    const hasCookieToken = typeof document !== "undefined" && document.cookie.includes("token=");
+    const hasStorageToken = typeof window !== "undefined" && !!localStorage.getItem("token");
+    if (hasCookieToken || hasStorageToken) {
+      router.replace(nextParam || "/");
+    }
+  }, [router, nextParam]);
+
   return (
-    <main className="flex-1 bg-red-600 py-8 px-4 flex items-center justify-center">
+    <main className="flex-1 bg-white py-8 px-4 flex items-center justify-center">
       <div className="mx-auto max-w-md">
-        <div className="bg-card border border-border rounded-lg p-6 shadow-sm">
+        <div className="bg-card border-2 border-yellow-600 rounded-lg p-6 shadow-sm">
           <div className="flex flex-col items-center mb-4">
             <div className="logo-red" role="img" aria-label="Logo" />
           </div>

@@ -1,41 +1,51 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { api } from "@/lib/api";
 import Link from "next/link";
+import { useAuth } from "@/lib/auth";
 
 export default function LoginPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const nextParam = searchParams.get("next") || "/";
+  const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    try {
-      const res = await fetch("/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-      if (!res.ok) {
-        const data = await res.json();
-        const messages = Object.values<string[]>(data.errors || {}).flat();
-        setError(messages.join(". "));
-        return;
-      }
-      // sucesso: aqui você pode redirecionar ou mostrar feedback
-    } catch (err) {
-      setError("Falha ao conectar ao servidor.");
+  try {
+      const data = await api.login(email, password);
+      // Atualiza contexto (inclui salvar token/user e cookie)
+      login(data.token, data.user);
+      // redireciona para rota protegida (ou home)
+      router.replace(nextParam);
+    } catch (err: any) {
+      setError(String(err?.message || "Erro ao fazer login"));
     } finally {
       setLoading(false);
     }
   };
 
+  // Redireciona automaticamente se já estiver autenticado
+  useEffect(() => {
+    const hasCookieToken = typeof document !== "undefined" && document.cookie.includes("token=");
+    const hasStorageToken = typeof window !== "undefined" && !!localStorage.getItem("token");
+    if (hasCookieToken || hasStorageToken) {
+      router.replace(nextParam || "/");
+    }
+  }, [router, nextParam]);
+
   return (
-    <main className="flex-1 bg-red-600 py-8 px-4 flex items-center justify-center">
+    <main className="flex-1 bg-white py-8 px-4 flex items-center justify-center">
       <div className="mx-auto max-w-md">
-        <div className="bg-card border border-border rounded-lg p-6 shadow-sm">
+        <div className="bg-card border-2 border-yellow-600 rounded-lg p-6 shadow-sm">
           <div className="flex flex-col items-center mb-4">
             <div className="logo-red" role="img" aria-label="Logo" />
           </div>
@@ -62,15 +72,26 @@ export default function LoginPage() {
                 <label htmlFor="password" className="text-sm text-muted-foreground">
                   Senha
                 </label>
-                <input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  className="w-full bg-input text-foreground border border-border rounded-md px-3 py-2 focus:ring-2 focus:ring-ring focus:outline-none"
-                  placeholder="••••••••"
-                />
+                <div className="relative">
+                  <input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    className="w-full bg-input text-foreground border border-border rounded-md px-3 py-2 focus:ring-2 focus:ring-ring focus:outline-none pr-20"
+                    placeholder="••••••••"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((v) => !v)}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-muted-foreground hover:text-foreground bg-muted/30 px-2 py-1 rounded"
+                    aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                    title={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                  >
+                    {showPassword ? "Ocultar" : "Mostrar"}
+                  </button>
+                </div>
               </div>
               <button
                 type="submit"

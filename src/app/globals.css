@@ -222,7 +222,7 @@
 
 .logo-red {
   width: 140px;
-  height: 40px;
+  height: 140px;
   background-color: rgb(220 38 38); /* Tailwind red-600 */
   -webkit-mask-image: url('/logo.png');
   -webkit-mask-repeat: no-repeat;
