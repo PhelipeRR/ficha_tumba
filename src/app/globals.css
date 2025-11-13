@@ -140,6 +140,11 @@
   }
 }
 
+select {
+  border: none !important;
+  outline: none;
+}
+
 .sheet {
   position: relative;
   width: min(90vw, 970px);
@@ -374,10 +379,11 @@ button,
 }
 
 .proficiencia {
+  color: #4e4122;
   font-size: 2em;
   position: absolute;
-  top: 5.5em;
-  left: 11.8em;
+  top: 5.6em;
+  left: 11.7em;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -388,10 +394,11 @@ button,
 
 .proficiencia input {
   font-family: 'CloisterBlack';
+  letter-spacing: -6px;
   width: 70%;
   height: 70%;
   text-align: center;
-  font-size: 2em;
+  font-size: 1.5em;
   background: transparent;
   border: none;
   outline: none;
@@ -399,6 +406,7 @@ button,
 }
 
 .hp {
+  color: #4e4122;
   font-size: 2em;
   position: absolute;
   bottom: 8.7em;
@@ -424,6 +432,7 @@ button,
 }
 
 .mana {
+  color: #4e4122;
   font-size: 1em;
   position: absolute;
   bottom: 32.8em;
@@ -446,4 +455,45 @@ button,
   border: none;
   outline: none;
   box-shadow: none;
+}
+
+.nome_personagem {
+  color: #DCA760;
+  font-size: 2em;
+  position: absolute;
+  top: 1.55em;
+  left: 2.5em;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: transparent;
+  width: 80%;
+  aspect-ratio: 1/1;
+}
+
+.nome_personagem input {
+  font-family: 'CloisterBlack';
+  text-align: left;
+  font-size: 1.4em;
+  background: transparent;
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+.armaduras {
+    width: 46%;
+    position: absolute;
+    bottom: 15em;
+    right: 1em;
+    z-index: 10;
+}
+
+
+.w-full.flex.justify-between.items-center.mt-2.opacity-0.group-hover\:opacity-100.transition-opacity.z-20 {
+    margin-left: -19px;
+}
+
+.skills-column {
+  z-index: 10;
 }

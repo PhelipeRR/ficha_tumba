@@ -12,7 +12,12 @@ const ClassesSelect: React.FC<Props> = ({ onSelectClass, value }) => {
 
   return (
     <div>
-      <select name="classes" id="classes_icon" onChange={handleChange} value={value ?? ""}>
+      <select
+        name="classes"
+        id="classes_icon"
+        onChange={handleChange}
+        value={value ?? ""}
+      >
         <option value="">Selecione uma classe</option>
         <option value="arcanista">Arcanista</option>
         <option value="barbaro">Bárbaro</option>

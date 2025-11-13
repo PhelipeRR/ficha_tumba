@@ -4,6 +4,8 @@ import SkillRow from "./SkillRow";
 import type { AttrKey, SkillBase } from "../types/types";
 import ClassesSelect from "./ClassesSkills";
 import ArmasSlide from "./ArmasSlide";
+import ClasseImagem from "./ClasseImagem";
+import EquipamentoInput from "./AmaduraInput";
 
 const SKILLS: SkillBase[] = [
   { nome: "Acrobacia", atr: "des" },
@@ -255,6 +257,11 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
 
       <ClassesSelect onSelectClass={handleClassSelect} value={selectedClass} />
 
+      {/* Input de nome*/}
+      <div className="nome_personagem">
+        <input id="nome" type="text" placeholder="Bananilson Farofa" />
+      </div>
+
       {/* Inputs de atributos - mesma posição do HTML original */}
       <div className="attr destreza">
         <input
@@ -334,21 +341,50 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
       <div className="proficiencia">
         <input
           id="proficiencia"
-          type="number"
+          type="text" // muda pra text pra exibir o "+"
           value={
             nivel >= 1 && nivel <= 6
-              ? 2
+              ? "+2"
               : nivel >= 7 && nivel <= 14
-              ? 4
+              ? "+4"
               : nivel >= 15
-              ? 6
-              : 0
+              ? "+6"
+              : "+0"
           }
           readOnly
         />
       </div>
 
       <ArmasSlide />
+
+      {/* Imagem da classe — reativa à seleção */}
+      {selectedClass && (
+        <ClasseImagem
+          key={selectedClass}
+          classe={selectedClass}
+          style={{
+            width: "10.1em",
+            position: "absolute",
+            bottom: "34.76em",
+            left: "1.7em",
+            pointerEvents: "none",
+          }}
+        />
+      )}
+
+      {/* Inputs de Armadura e Escudo */}
+      <div className="armaduras">
+        <EquipamentoInput
+        tipo="Armadura"
+        onChange={(data) => console.log("Armadura:", data)}
+      />
+
+      <EquipamentoInput
+        tipo="Escudo"
+        onChange={(data) => console.log("Escudo:", data)}
+      />
+      </div>
+      
     </div>
   );
 };
