@@ -305,6 +305,16 @@ input[type="number"] {
   appearance: textfield;
 }
 
+/* Cursor pointer em elementos editáveis/interativos */
+select#classes_icon,
+select.atr,
+input[type="number"],
+input[type="range"],
+button,
+.attr input {
+  cursor: pointer;
+}
+
 .attr.destreza {
   top: 11.6%;
   right: 24.5%;
