@@ -3,6 +3,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import SkillRow from "./SkillRow";
 import type { AttrKey, SkillBase } from "../types/types";
 import ClassesSelect from "./ClassesSkills";
+import ArmasSlide from "./ArmasSlide";
 
 const SKILLS: SkillBase[] = [
   { nome: "Acrobacia", atr: "des" },
@@ -133,70 +134,71 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
   };
 
   const computedVida = useMemo(() => {
-  const vidaPorClasse: Record<string, { base: number; porNivel: number }> = {
-    arcanista: { base: 8, porNivel: 2 },
-    barbaro: { base: 24, porNivel: 6 },
-    bardo: { base: 12, porNivel: 3 },
-    bucaneiro: { base: 16, porNivel: 4 },
-    cacador: { base: 16, porNivel: 4 },
-    cavaleiro: { base: 20, porNivel: 5 },
-    clerigo: { base: 16, porNivel: 4 },
-    druida: { base: 16, porNivel: 4 },
-    frade: { base: 16, porNivel: 4 },
-    guerreiro: { base: 20, porNivel: 5 },
-    inventor: { base: 12, porNivel: 3 },
-    ladino: { base: 12, porNivel: 3 },
-    lutador: { base: 20, porNivel: 5 },
-    nobre: { base: 16, porNivel: 4 },
-    paladino: { base: 20, porNivel: 5 },
-    pajem: { base: 12, porNivel: 3 },
-  };
+    const vidaPorClasse: Record<string, { base: number; porNivel: number }> = {
+      arcanista: { base: 8, porNivel: 2 },
+      barbaro: { base: 24, porNivel: 6 },
+      bardo: { base: 12, porNivel: 3 },
+      bucaneiro: { base: 16, porNivel: 4 },
+      cacador: { base: 16, porNivel: 4 },
+      cavaleiro: { base: 20, porNivel: 5 },
+      clerigo: { base: 16, porNivel: 4 },
+      druida: { base: 16, porNivel: 4 },
+      frade: { base: 16, porNivel: 4 },
+      guerreiro: { base: 20, porNivel: 5 },
+      inventor: { base: 12, porNivel: 3 },
+      ladino: { base: 12, porNivel: 3 },
+      lutador: { base: 20, porNivel: 5 },
+      nobre: { base: 16, porNivel: 4 },
+      paladino: { base: 20, porNivel: 5 },
+      pajem: { base: 12, porNivel: 3 },
+    };
 
-  const classe = vidaPorClasse[selectedClass];
-  if (!classe) return 0;
+    const classe = vidaPorClasse[selectedClass];
+    if (!classe) return 0;
 
-  const modCon = Number(attrs.con) || 0;
-  const nivelValido = Math.max(nivel, 1);
+    const modCon = Number(attrs.con) || 0;
+    const nivelValido = Math.max(nivel, 1);
 
-  // PV total = (base + modCon no 1º nível) + (níveis seguintes * (porNivel + modCon))
-  return (classe.base + modCon) + (nivelValido - 1) * (classe.porNivel + modCon);
-}, [selectedClass, attrs.con, nivel]);
-
+    // PV total = (base + modCon no 1º nível) + (níveis seguintes * (porNivel + modCon))
+    return (
+      classe.base + modCon + (nivelValido - 1) * (classe.porNivel + modCon)
+    );
+  }, [selectedClass, attrs.con, nivel]);
 
   const computedMana = useMemo(() => {
-  const manaPorClasse: Record<
-    string,
-    { porNivel: number; modAtributo?: keyof typeof attrs }
-  > = {
-    arcanista: { porNivel: 6, modAtributo: "int" },
-    barbaro: { porNivel: 6 },
-    bardo: { porNivel: 3, modAtributo: "car" },
-    bucaneiro: { porNivel: 4 },
-    cacador: { porNivel: 4 },
-    cavaleiro: { porNivel: 5 },
-    clerigo: { porNivel: 4, modAtributo: "sab" },
-    druida: { porNivel: 4 },
-    frade: { porNivel: 4 },
-    guerreiro: { porNivel: 5 },
-    inventor: { porNivel: 3 },
-    ladino: { porNivel: 3 },
-    lutador: { porNivel: 5 },
-    nobre: { porNivel: 4 },
-    paladino: { porNivel: 5 },
-    pajem: { porNivel: 3 },
-  };
+    const manaPorClasse: Record<
+      string,
+      { porNivel: number; modAtributo?: keyof typeof attrs }
+    > = {
+      arcanista: { porNivel: 6, modAtributo: "int" },
+      barbaro: { porNivel: 6 },
+      bardo: { porNivel: 3, modAtributo: "car" },
+      bucaneiro: { porNivel: 4 },
+      cacador: { porNivel: 4 },
+      cavaleiro: { porNivel: 5 },
+      clerigo: { porNivel: 4, modAtributo: "sab" },
+      druida: { porNivel: 4 },
+      frade: { porNivel: 4 },
+      guerreiro: { porNivel: 5 },
+      inventor: { porNivel: 3 },
+      ladino: { porNivel: 3 },
+      lutador: { porNivel: 5 },
+      nobre: { porNivel: 4 },
+      paladino: { porNivel: 5 },
+      pajem: { porNivel: 3 },
+    };
 
-  const classe = manaPorClasse[selectedClass];
-  if (!classe) return 0;
+    const classe = manaPorClasse[selectedClass];
+    if (!classe) return 0;
 
-  const modAtributo = classe.modAtributo ? Number(attrs[classe.modAtributo]) || 0 : 0;
-  const nivelValido = Math.max(nivel, 1);
+    const modAtributo = classe.modAtributo
+      ? Number(attrs[classe.modAtributo]) || 0
+      : 0;
+    const nivelValido = Math.max(nivel, 1);
 
-  // Mana total = (porNivel * nível) + modificador (somado apenas uma vez)
-  return classe.porNivel * nivelValido + modAtributo;
-}, [selectedClass, attrs, nivel]);
-
-
+    // Mana total = (porNivel * nível) + modificador (somado apenas uma vez)
+    return classe.porNivel * nivelValido + modAtributo;
+  }, [selectedClass, attrs, nivel]);
 
   const computedSkills = useMemo(() => {
     const profBonus =
@@ -345,6 +347,8 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
           readOnly
         />
       </div>
+
+      <ArmasSlide />
     </div>
   );
 };

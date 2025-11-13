@@ -203,7 +203,7 @@
 .skill-name {
   flex: 1;
   font-size: 0.8em;
-  color: #2d1a0b;
+  color: #4e4122;
   user-select: none;
 }
 
@@ -246,7 +246,7 @@ select#classes_icon {
   top: 4.6%;
   right: 26.5%;
   z-index: 99;
-  border: 1px solid #000000;
+  border: 1px solid #4e4122;
   border-radius: 4px;
   width: 15%;
   height: 1.5%;
@@ -258,7 +258,7 @@ select.atr {
   height: 1rem;
   font-size: 0.7em;
   background: transparent;
-  border: 1px solid #000000;
+  border: 1px solid #4e4122;
   border-radius: 4px;
   margin-left: 3%;
 }
@@ -268,7 +268,7 @@ input.value {
   height: 100%;
   text-align: center;
   font-size: 0.8em;
-  border: 1px solid #000000;
+  border: 1px solid #4e4122;
   border-radius: 4px;
   background: transparent;
   margin-left: 3%;
@@ -347,6 +347,7 @@ button,
 
 .attr {
   font-family: 'CloisterBlack';
+  color: #4e4122;
 }
 
 .level {
