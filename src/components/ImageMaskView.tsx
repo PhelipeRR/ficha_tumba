@@ -29,7 +29,6 @@ const ImageMaskView: React.FC<ImageMaskViewProps> = ({
         backgroundImage: `url(${src})`,
         backgroundPosition: `${posX}% ${posY}%`,
         backgroundSize: `${zoom}%`,
-        // variável CSS para trocar a máscara sem editar o componente
         ...(maskUrl ? ({ ["--mask-url" as any]: `url('${maskUrl}')` } as React.CSSProperties) : {}),
         ...style,
       }}

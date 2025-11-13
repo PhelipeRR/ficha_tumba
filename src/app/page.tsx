@@ -24,6 +24,12 @@ export default function Home() {
     setPosY(50)
   }
 
+  const handleReset = () => {
+    setPosX(50);
+    setPosY(50);
+    setZoom(100);
+  };
+
   return (
     <>
       <Navbar />
@@ -56,6 +62,7 @@ export default function Home() {
                   onPosXChange={setPosX}
                   onPosYChange={setPosY}
                   onZoomChange={setZoom}
+                  onReset={handleReset}
                 />
               </section>
             </div>
