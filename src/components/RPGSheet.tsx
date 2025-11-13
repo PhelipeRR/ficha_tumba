@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import SkillRow from "./SkillRow";
 import type { AttrKey, SkillBase } from "../types/types";
 import ClassesSelect from "./ClassesSkills";
@@ -41,6 +41,8 @@ interface RPGSheetProps {
   children?: React.ReactNode;
 }
 
+const STORAGE_KEY = "rpgsheet:v1";
+
 const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
   const [attrs, setAttrs] = useState<Record<AttrKey, number>>({
     des: 0,
@@ -55,8 +57,45 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
   const [skills, setSkills] = useState<(SkillBase & { trained: boolean })[]>(
     SKILLS.map((s) => ({ ...s, trained: false }))
   );
+  const [selectedClass, setSelectedClass] = useState<string>("");
+
+  // Carregar estado salvo
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      const data = JSON.parse(raw);
+      if (data?.attrs) setAttrs((prev) => ({ ...prev, ...data.attrs }));
+      if (typeof data?.nivel === "number") setNivel(data.nivel);
+      if (typeof data?.selectedClass === "string") setSelectedClass(data.selectedClass);
+      if (Array.isArray(data?.skills)) {
+        const byName: Record<string, { atr: AttrKey; trained: boolean }> = {};
+        data.skills.forEach((s: any) => {
+          if (s?.nome && s?.atr) byName[s.nome] = { atr: s.atr, trained: !!s.trained };
+        });
+        setSkills((prev) => prev.map((s) => ({
+          ...s,
+          atr: byName[s.nome]?.atr ?? s.atr,
+          trained: byName[s.nome]?.trained ?? s.trained,
+        })));
+      }
+    } catch {}
+  }, []);
+
+  useEffect(() => {
+    try {
+      const payload = {
+        attrs,
+        nivel,
+        selectedClass,
+        skills: skills.map(({ nome, atr, trained }) => ({ nome, atr, trained })),
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+    } catch {}
+  }, [attrs, nivel, selectedClass, skills]);
 
   const handleClassSelect = (classe: string) => {
+    setSelectedClass(classe);
     const trainedByClass: Record<string, string[]> = {
       arcanista: ["Conhecimento", "Misticismo"],
       barbaro: ["Luta", "Fortitude"],
@@ -128,7 +167,7 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
         ))}
       </div>
 
-      <ClassesSelect onSelectClass={handleClassSelect} />
+      <ClassesSelect onSelectClass={handleClassSelect} value={selectedClass} />
 
 
       {/* Inputs de atributos - mesma posição do HTML original */}
