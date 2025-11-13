@@ -8,6 +8,7 @@ interface ImageMaskControlsProps {
   onPosXChange: (val: number) => void;
   onPosYChange: (val: number) => void;
   onZoomChange: (val: number) => void;
+  onReset?: () => void;
 }
 
 const ImageMaskControls: React.FC<ImageMaskControlsProps> = ({
@@ -17,6 +18,7 @@ const ImageMaskControls: React.FC<ImageMaskControlsProps> = ({
   onPosXChange,
   onPosYChange,
   onZoomChange,
+  onReset,
 }) => {
   return (
     <div className="flex flex-col gap-2 p-4 bg-white rounded shadow-md w-96 font-sans">
@@ -25,7 +27,7 @@ const ImageMaskControls: React.FC<ImageMaskControlsProps> = ({
         <input
           id="posX"
           type="range"
-          min="0"
+          min="-100"
           max="100"
           value={posX}
           onChange={(e) => onPosXChange(Number(e.target.value))}
@@ -39,7 +41,7 @@ const ImageMaskControls: React.FC<ImageMaskControlsProps> = ({
         <input
           id="posY"
           type="range"
-          min="0"
+          min="-100"
           max="100"
           value={posY}
           onChange={(e) => onPosYChange(Number(e.target.value))}
@@ -61,6 +63,16 @@ const ImageMaskControls: React.FC<ImageMaskControlsProps> = ({
         />
         <span className="w-10 text-right">{zoom}%</span>
       </div>
+
+      {onReset && (
+        <button
+          type="button"
+          onClick={onReset}
+          className="mt-2 w-full text-sm bg-muted text-muted-foreground rounded-md px-3 py-2 transition-opacity hover:opacity-90"
+        >
+          Resetar Posição
+        </button>
+      )}
     </div>
   );
 };

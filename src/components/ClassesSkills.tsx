@@ -2,16 +2,17 @@ import React from "react";
 
 interface Props {
   onSelectClass: (classe: string) => void;
+  value?: string;
 }
 
-const ClassesSelect: React.FC<Props> = ({ onSelectClass }) => {
+const ClassesSelect: React.FC<Props> = ({ onSelectClass, value }) => {
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     onSelectClass(e.target.value);
   };
 
   return (
     <div>
-      <select name="classes" id="classes_icon" onChange={handleChange}>
+      <select name="classes" id="classes_icon" onChange={handleChange} value={value ?? ""}>
         <option value="">Selecione uma classe</option>
         <option value="arcanista">Arcanista</option>
         <option value="barbaro">Bárbaro</option>

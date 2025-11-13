@@ -159,7 +159,6 @@
   aspect-ratio: 210 / 297;
   width: min(90vw, 970px);
   background-size: cover;
-  background-position: center;
   background-repeat: no-repeat;
   left: 0%;
   top: 50%;
