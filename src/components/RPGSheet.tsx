@@ -4,7 +4,6 @@ import SkillRow from "./SkillRow";
 import type { AttrKey, SkillBase } from "../types/types";
 import ClassesSelect from "./ClassesSkills";
 
-
 const SKILLS: SkillBase[] = [
   { nome: "Acrobacia", atr: "des" },
   { nome: "Adestramento", atr: "car" },
@@ -67,17 +66,21 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
       const data = JSON.parse(raw);
       if (data?.attrs) setAttrs((prev) => ({ ...prev, ...data.attrs }));
       if (typeof data?.nivel === "number") setNivel(data.nivel);
-      if (typeof data?.selectedClass === "string") setSelectedClass(data.selectedClass);
+      if (typeof data?.selectedClass === "string")
+        setSelectedClass(data.selectedClass);
       if (Array.isArray(data?.skills)) {
         const byName: Record<string, { atr: AttrKey; trained: boolean }> = {};
         data.skills.forEach((s: any) => {
-          if (s?.nome && s?.atr) byName[s.nome] = { atr: s.atr, trained: !!s.trained };
+          if (s?.nome && s?.atr)
+            byName[s.nome] = { atr: s.atr, trained: !!s.trained };
         });
-        setSkills((prev) => prev.map((s) => ({
-          ...s,
-          atr: byName[s.nome]?.atr ?? s.atr,
-          trained: byName[s.nome]?.trained ?? s.trained,
-        })));
+        setSkills((prev) =>
+          prev.map((s) => ({
+            ...s,
+            atr: byName[s.nome]?.atr ?? s.atr,
+            trained: byName[s.nome]?.trained ?? s.trained,
+          }))
+        );
       }
     } catch {}
   }, []);
@@ -88,7 +91,11 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
         attrs,
         nivel,
         selectedClass,
-        skills: skills.map(({ nome, atr, trained }) => ({ nome, atr, trained })),
+        skills: skills.map(({ nome, atr, trained }) => ({
+          nome,
+          atr,
+          trained,
+        })),
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
     } catch {}
@@ -125,31 +132,93 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
     );
   };
 
+  const computedVida = useMemo(() => {
+  const vidaPorClasse: Record<string, { base: number; porNivel: number }> = {
+    arcanista: { base: 8, porNivel: 2 },
+    barbaro: { base: 24, porNivel: 6 },
+    bardo: { base: 12, porNivel: 3 },
+    bucaneiro: { base: 16, porNivel: 4 },
+    cacador: { base: 16, porNivel: 4 },
+    cavaleiro: { base: 20, porNivel: 5 },
+    clerigo: { base: 16, porNivel: 4 },
+    druida: { base: 16, porNivel: 4 },
+    frade: { base: 16, porNivel: 4 },
+    guerreiro: { base: 20, porNivel: 5 },
+    inventor: { base: 12, porNivel: 3 },
+    ladino: { base: 12, porNivel: 3 },
+    lutador: { base: 20, porNivel: 5 },
+    nobre: { base: 16, porNivel: 4 },
+    paladino: { base: 20, porNivel: 5 },
+    pajem: { base: 12, porNivel: 3 },
+  };
+
+  const classe = vidaPorClasse[selectedClass];
+  if (!classe) return 0;
+
+  const modCon = Number(attrs.con) || 0;
+  const nivelValido = Math.max(nivel, 1);
+
+  // PV total = (base + modCon no 1º nível) + (níveis seguintes * (porNivel + modCon))
+  return (classe.base + modCon) + (nivelValido - 1) * (classe.porNivel + modCon);
+}, [selectedClass, attrs.con, nivel]);
+
+
+  const computedMana = useMemo(() => {
+  const manaPorClasse: Record<
+    string,
+    { porNivel: number; modAtributo?: keyof typeof attrs }
+  > = {
+    arcanista: { porNivel: 6, modAtributo: "int" },
+    barbaro: { porNivel: 6 },
+    bardo: { porNivel: 3, modAtributo: "car" },
+    bucaneiro: { porNivel: 4 },
+    cacador: { porNivel: 4 },
+    cavaleiro: { porNivel: 5 },
+    clerigo: { porNivel: 4, modAtributo: "sab" },
+    druida: { porNivel: 4 },
+    frade: { porNivel: 4 },
+    guerreiro: { porNivel: 5 },
+    inventor: { porNivel: 3 },
+    ladino: { porNivel: 3 },
+    lutador: { porNivel: 5 },
+    nobre: { porNivel: 4 },
+    paladino: { porNivel: 5 },
+    pajem: { porNivel: 3 },
+  };
+
+  const classe = manaPorClasse[selectedClass];
+  if (!classe) return 0;
+
+  const modAtributo = classe.modAtributo ? Number(attrs[classe.modAtributo]) || 0 : 0;
+  const nivelValido = Math.max(nivel, 1);
+
+  // Mana total = (porNivel * nível) + modificador (somado apenas uma vez)
+  return classe.porNivel * nivelValido + modAtributo;
+}, [selectedClass, attrs, nivel]);
+
+
+
   const computedSkills = useMemo(() => {
-  // calcula o bônus de proficiência conforme o nível
-  const profBonus =
-    nivel >= 1 && nivel <= 6
-      ? 2
-      : nivel >= 7 && nivel <= 14
-      ? 4
-      : nivel >= 15
-      ? 6
-      : 0;
+    const profBonus =
+      nivel >= 1 && nivel <= 6
+        ? 2
+        : nivel >= 7 && nivel <= 14
+        ? 4
+        : nivel >= 15
+        ? 6
+        : 0;
 
-  // calcula metade do nível (arredondado para baixo)
-  const halfLevel = Math.floor(nivel / 2);
+    const halfLevel = Math.floor(nivel / 2);
 
-  return skills.map((skill) => {
-    const modAtrib = attrs[skill.atr] || 0;
-    const treinoBonus = skill.trained ? profBonus : 0;
+    return skills.map((skill) => {
+      const modAtrib = attrs[skill.atr] || 0;
+      const treinoBonus = skill.trained ? profBonus : 0;
 
-    const total = modAtrib + halfLevel + treinoBonus;
+      const total = modAtrib + halfLevel + treinoBonus;
 
-    return { ...skill, value: total };
-  });
-}, [skills, attrs, nivel]);
-
-
+      return { ...skill, value: total };
+    });
+  }, [skills, attrs, nivel]);
 
   const handleAttrChange = (name: AttrKey, val: string) => {
     setAttrs((prev) => ({ ...prev, [name]: Number(val) || 0 }));
@@ -181,10 +250,8 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
           />
         ))}
       </div>
-      
 
       <ClassesSelect onSelectClass={handleClassSelect} value={selectedClass} />
-
 
       {/* Inputs de atributos - mesma posição do HTML original */}
       <div className="attr destreza">
@@ -241,6 +308,16 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
         />
       </div>
 
+      {/* HP */}
+      <div className="hp">
+        <input id="hp" type="number" value={computedVida} readOnly />
+      </div>
+
+      {/* Mana */}
+      <div className="mana">
+        <input id="mana" type="number" value={computedMana} readOnly />
+      </div>
+
       {/* Nível */}
       <div className="level">
         <input
@@ -268,8 +345,6 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
           readOnly
         />
       </div>
-
-
     </div>
   );
 };
