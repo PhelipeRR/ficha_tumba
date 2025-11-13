@@ -58,21 +58,21 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
 
   const handleClassSelect = (classe: string) => {
     const trainedByClass: Record<string, string[]> = {
-      arcanista: ["Conhecimento", "Misticismo"],
+      arcanista: ["Vontade", "Misticismo"],
       barbaro: ["Luta", "Fortitude"],
-      bardo: ["Atuação", "Diplomacia", "Enganação"],
-      bucaneiro: ["Pilotagem", "Acrobacia", "Reflexos"],
-      cacador: ["Sobrevivência", "Percepção", "Furtividade"],
-      cavaleiro: ["Cavalgar", "Guerra", "Fortitude"],
-      clerigo: ["Religião", "Cura"],
-      druida: ["Sobrevivência", "Natureza", "Cura"],
-      frade: ["Luta", "Reflexos", "Vontade"],
-      guerreiro: ["Luta", "Fortitude", "Reflexos"],
-      inventor: ["Ofício 1", "Conhecimento", "Misticismo"],
-      ladino: ["Furtividade", "Ladinagem", "Enganação"],
-      lutador: ["Luta", "Atletismo"],
-      nobre: ["Diplomacia", "Nobreza"],
-      paladino: ["Religião", "Vontade"],
+      bardo: ["Atuação", "Reflexo"],
+      bucaneiro: ["Luta", "Reflexos"],
+      cacador: ["Sobrevivência", "Luta"],
+      cavaleiro: ["Luta", "Fortitude"],
+      clerigo: ["Religião", "Vontade"],
+      druida: ["Sobrevivência", "Vontade"],
+      frade: ["Religião", "Vontade"],
+      guerreiro: ["Luta", "Fortitude"],
+      inventor: ["Ofício 1", "Vontade"],
+      ladino: ["Furtividade", "Ladinagem"],
+      lutador: ["Luta", "Fortitude"],
+      nobre: ["Diplomacia", "Vontade"],
+      paladino: ["Luta", "Vontade"],
       pajem: ["Cura", "Intuição"],
     };
 
@@ -86,16 +86,31 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
     );
   };
 
-  const computedSkills = useMemo(
-    () =>
-      skills.map((skill) => {
-        const modAtrib = attrs[skill.atr] || 0;
-        const bonusTreino = skill.trained ? Math.floor(nivel / 2) + 2 : 0;
-        const total = modAtrib + bonusTreino;
-        return { ...skill, value: total };
-      }),
-    [skills, attrs, nivel]
-  );
+  const computedSkills = useMemo(() => {
+  // calcula o bônus de proficiência conforme o nível
+  const profBonus =
+    nivel >= 1 && nivel <= 6
+      ? 2
+      : nivel >= 7 && nivel <= 14
+      ? 4
+      : nivel >= 15
+      ? 6
+      : 0;
+
+  // calcula metade do nível (arredondado para baixo)
+  const halfLevel = Math.floor(nivel / 2);
+
+  return skills.map((skill) => {
+    const modAtrib = attrs[skill.atr] || 0;
+    const treinoBonus = skill.trained ? profBonus : 0;
+
+    const total = modAtrib + halfLevel + treinoBonus;
+
+    return { ...skill, value: total };
+  });
+}, [skills, attrs, nivel]);
+
+
 
   const handleAttrChange = (name: AttrKey, val: string) => {
     setAttrs((prev) => ({ ...prev, [name]: Number(val) || 0 }));
@@ -127,6 +142,7 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
           />
         ))}
       </div>
+      
 
       <ClassesSelect onSelectClass={handleClassSelect} />
 
@@ -195,6 +211,26 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
           onChange={(e) => setNivel(Number(e.target.value) || 0)}
         />
       </div>
+
+      {/* Proficiência */}
+      <div className="proficiencia">
+        <input
+          id="proficiencia"
+          type="number"
+          value={
+            nivel >= 1 && nivel <= 6
+              ? 2
+              : nivel >= 7 && nivel <= 14
+              ? 4
+              : nivel >= 15
+              ? 6
+              : 0
+          }
+          readOnly
+        />
+      </div>
+
+
     </div>
   );
 };
