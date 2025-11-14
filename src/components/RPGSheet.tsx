@@ -6,6 +6,8 @@ import ClassesSelect from "./ClassesSkills";
 import ArmasSlide from "./ArmasSlide";
 import ClasseImagem from "./ClasseImagem";
 import EquipamentoInput from "./AmaduraInput";
+import { armas1, armas2, armas3, armas4 } from "./armasListas";
+
 
 const SKILLS: SkillBase[] = [
   { nome: "Acrobacia", atr: "des" },
@@ -355,7 +357,47 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
         />
       </div>
 
-      <ArmasSlide />
+      {/* Slide de armas */}
+      {/* Slide 1 */}
+      <ArmasSlide
+        armas={armas1}
+        position={{
+          bottom: "11.7em",
+          left: "22.6em",
+          width: "5em",
+        }}
+      />
+
+      {/* Slide 2 */}
+      <ArmasSlide
+        armas={armas2}
+        position={{
+          bottom: "19.7em",
+          left: "22.6em",
+          width: "5em",
+        }}
+      />
+
+      {/* Slide 3 */}
+      <ArmasSlide
+        armas={armas3}
+        position={{
+          bottom: "27.5em",
+          left: "22.6em",
+          width: "5em",
+        }}
+      />
+
+      {/* Slide 4 */}
+      <ArmasSlide
+        armas={armas4}
+        position={{
+          bottom: "3.7em",
+          left: "22.6em",
+          width: "5em",
+        }}
+      />
+
 
       {/* Imagem da classe — reativa à seleção */}
       {selectedClass && (
@@ -371,6 +413,8 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
           }}
         />
       )}
+
+          
 
       {/* Inputs de Armadura e Escudo */}
       <div className="armaduras">
