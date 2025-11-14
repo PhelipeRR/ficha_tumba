@@ -8,9 +8,10 @@ export interface Arma {
 interface ArmasSlideProps {
   armas: Arma[];
   position: React.CSSProperties;
+  className?: string;
 }
 
-const ArmasSlide: React.FC<ArmasSlideProps> = ({ armas, position }) => {
+const ArmasSlide: React.FC<ArmasSlideProps> = ({ armas, position, className }) => {
   const [index, setIndex] = useState(0);
 
   const proxima = () => setIndex((i) => (i + 1) % armas.length);
@@ -18,7 +19,7 @@ const ArmasSlide: React.FC<ArmasSlideProps> = ({ armas, position }) => {
 
   return (
     <div
-      className="armas group absolute flex flex-col items-center"
+      className={`armas group absolute flex flex-col items-center ${className ?? ""}`}
       style={position}
     >
       <img

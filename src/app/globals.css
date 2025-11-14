@@ -153,6 +153,7 @@ select {
   background-size: cover;
   background-position: center;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  border-radius: 16px;
   overflow: hidden;
   font-size: clamp(10px, 1.1vw, 16px);
   font-family: 'Sherwood', serif;
@@ -234,7 +235,7 @@ select {
 .logo-red {
   width: 140px;
   height: 140px;
-  background-color: rgb(220 38 38); /* Tailwind red-600 */
+  background-color: rgb(220 38 38);
   -webkit-mask-image: url('/logo.png');
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -310,7 +311,6 @@ input[type="number"] {
   appearance: textfield;
 }
 
-/* Cursor pointer em elementos editáveis/interativos */
 select#classes_icon,
 select.atr,
 input[type="number"],
@@ -482,18 +482,186 @@ button,
 }
 
 .armaduras {
-    width: 46%;
-    position: absolute;
-    bottom: 15em;
-    right: 1em;
-    z-index: 10;
+  width: 46%;
+  position: absolute;
+  bottom: 15em;
+  right: 1em;
+  z-index: 10;
 }
 
 
 .w-full.flex.justify-between.items-center.mt-2.opacity-0.group-hover\:opacity-100.transition-opacity.z-20 {
-    margin-left: -19px;
+  margin-left: -19px;
 }
 
 .skills-column {
   z-index: 10;
+}
+
+.armas {
+  z-index: 10;
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  html,
+  body {
+    height: auto;
+  }
+
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  main,
+  .mx-auto,
+  .max-w-7xl,
+  section#sheet {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .flex {
+    gap: 0 !important;
+  }
+
+  nav,
+  footer,
+  .no-print {
+    display: none !important;
+  }
+
+  .sheet {
+    width: 210mm !important;
+    height: 297mm !important;
+    aspect-ratio: auto !important;
+    box-shadow: none !important;
+    background-color: transparent !important;
+    margin: 0 auto !important;
+  }
+
+  .imgUpload {
+    width: 210mm !important;
+    height: 297mm !important;
+    left: 0 !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    background-repeat: no-repeat !important;
+    background-origin: content-box !important;
+    z-index: 0 !important;
+  }
+
+  .masked-image {
+    -webkit-mask-image: var(--mask-url, url('/masks/personagem-1.png')) !important;
+    -webkit-mask-repeat: no-repeat !important;
+    -webkit-mask-position: center !important;
+    -webkit-mask-size: cover !important;
+    mask-image: var(--mask-url, url('/masks/personagem-1.png')) !important;
+    mask-repeat: no-repeat !important;
+    mask-position: center !important;
+    mask-size: cover !important;
+    mix-blend-mode: multiply !important;
+    opacity: 0.95 !important;
+  }
+
+  .sheet * {
+    overflow: hidden !important;
+  }
+
+  .skills-column,
+  .armas,
+  .armaduras {
+    z-index: 10 !important;
+  }
+
+  .skills-column {
+    top: 13.4% !important;
+    left: 7.5% !important;
+    width: 26.5% !important;
+    box-sizing: border-box !important;
+    padding-left: 2mm !important;
+  }
+
+  .skill-row {
+    height: 3.5mm !important;
+    width: 95% !important;
+  }
+
+  .trained {
+    width: 3.5mm !important;
+    height: 3.5mm !important;
+    margin-right: 1.2mm !important;
+  }
+
+  .skill-name {
+    font-size: 3mm !important;
+  }
+
+  .nome_personagem {
+    top: 2.2em;
+    left: 4em;
+  }
+
+  .armas1 {
+    bottom: 15em !important;
+    left: 30em !important;
+    width: 7em !important;
+  }
+
+  .armas2 {
+    bottom: 25.5em !important;
+    left: 30em !important;
+    width: 7em !important;
+  }
+
+  .armas3 {
+    bottom: 36em !important;
+    left: 30em !important;
+    width: 7em !important;
+  }
+
+  .armas4 {
+    bottom: 4em !important;
+    left: 30em !important;
+    width: 7em !important;
+  }
+
+  .hp {
+    bottom: 11.5em;
+    right: 8.5em;
+    width: 15%;
+  }
+
+  .armaduras {
+    width: 46%;
+    bottom: 17em;
+    right: 1em;
+  }
+
+  .mana {
+  font-size: 1em;
+  bottom: 10.8em;
+  right: 28em;
+  width: 6%;
+  z-index: 9999;
+}
+
+  .proficiencia,
+  .mana {
+    z-index: 20 !important;
+  }
+
+}
+
+.screen-only {
+  display: block;
+}
+
+.print-only {
+  display: none;
 }
