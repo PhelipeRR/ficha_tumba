@@ -436,14 +436,8 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
           tipo="Armadura"
           onChange={(data) => console.log("Armadura:", data)}
         />
-          tipo="Armadura"
-          onChange={(data) => console.log("Armadura:", data)}
-        />
+          
 
-        <EquipamentoInput
-          tipo="Escudo"
-          onChange={(data) => console.log("Escudo:", data)}
-        />
         <EquipamentoInput
           tipo="Escudo"
           onChange={(data) => console.log("Escudo:", data)}
