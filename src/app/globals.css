@@ -4,15 +4,15 @@
 @custom-variant dark (&:is(.dark *));
 
 @font-face {
-  font-family: 'CloisterBlack';
-  src: url('/fonts/CloisterBlack.ttf') format('truetype');
+  font-family: "CloisterBlack";
+  src: url("/fonts/CloisterBlack.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Sherwood';
-  src: url('/fonts/Sherwood.ttf') format('truetype');
+  font-family: "Sherwood";
+  src: url("/fonts/Sherwood.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
@@ -51,7 +51,6 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
-
 }
 
 .dark {
@@ -149,15 +148,14 @@ select {
   position: relative;
   width: min(90vw, 970px);
   aspect-ratio: 210 / 297;
-  background-image: url('/bg.png');
+  background-image: url("/bg.png");
   background-size: cover;
   background-position: center;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
   border-radius: 16px;
   overflow: hidden;
   font-size: clamp(10px, 1.1vw, 16px);
-  font-family: 'Sherwood', serif;
-
+  font-family: "Sherwood", serif;
 }
 
 .imgUpload {
@@ -193,7 +191,7 @@ select {
   appearance: none;
   width: 1rem;
   height: 1rem;
-  background-image: url('/teste.png');
+  background-image: url("/teste.png");
   background-size: 100% 100%;
   background-position: center;
   border: none;
@@ -203,7 +201,7 @@ select {
 }
 
 .trained:checked {
-  background-image: url('/Survival.png');
+  background-image: url("/Survival.png");
 }
 
 .skill-name {
@@ -214,13 +212,13 @@ select {
 }
 
 .masked-image {
-  -webkit-mask-image: var(--mask-url, url('/masks/personagem-1.png'));
+  -webkit-mask-image: var(--mask-url, url("/masks/personagem-1.png"));
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center;
   -webkit-mask-size: cover;
   -webkit-mask-composite: destination-in;
 
-  mask-image: var(--mask-url, url('/masks/personagem-1.png'));
+  mask-image: var(--mask-url, url("/masks/personagem-1.png"));
   mask-repeat: no-repeat;
   mask-position: center;
   mask-size: contain;
@@ -236,11 +234,11 @@ select {
   width: 140px;
   height: 140px;
   background-color: rgb(220 38 38);
-  -webkit-mask-image: url('/logo.png');
+  -webkit-mask-image: url("/logo.png");
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center;
   -webkit-mask-size: contain;
-  mask-image: url('/logo.png');
+  mask-image: url("/logo.png");
   mask-repeat: no-repeat;
   mask-position: center;
   mask-size: contain;
@@ -385,7 +383,7 @@ button,
 }
 
 .attr {
-  font-family: 'CloisterBlack';
+  font-family: "CloisterBlack";
   color: #4e4122;
 }
 
@@ -427,7 +425,7 @@ button,
 }
 
 .proficiencia input {
-  font-family: 'CloisterBlack';
+  font-family: "CloisterBlack";
   letter-spacing: -6px;
   width: 70%;
   height: 70%;
@@ -454,7 +452,7 @@ button,
 }
 
 .hp input {
-  font-family: 'CloisterBlack';
+  font-family: "CloisterBlack";
   width: 70%;
   height: 70%;
   text-align: center;
@@ -480,7 +478,7 @@ button,
 }
 
 .mana input {
-  font-family: 'CloisterBlack';
+  font-family: "CloisterBlack";
   width: 70%;
   height: 70%;
   text-align: center;
@@ -492,7 +490,7 @@ button,
 }
 
 .nome_personagem {
-  color: #DCA760;
+  color: #dca760;
   font-size: 2em;
   position: absolute;
   top: 1.55em;
@@ -506,7 +504,7 @@ button,
 }
 
 .nome_personagem input {
-  font-family: 'CloisterBlack';
+  font-family: "CloisterBlack";
   text-align: left;
   font-size: 1.4em;
   background: transparent;
@@ -522,7 +520,6 @@ button,
   right: 1em;
   z-index: 10;
 }
-
 
 .w-full.flex.justify-between.items-center.mt-2.opacity-0.group-hover\:opacity-100.transition-opacity.z-20 {
   margin-left: -19px;
@@ -587,11 +584,14 @@ button,
   }
 
   .masked-image {
-    -webkit-mask-image: var(--mask-url, url('/masks/personagem-1.png')) !important;
+    -webkit-mask-image: var(
+      --mask-url,
+      url("/masks/personagem-1.png")
+    ) !important;
     -webkit-mask-repeat: no-repeat !important;
     -webkit-mask-position: center !important;
     -webkit-mask-size: cover !important;
-    mask-image: var(--mask-url, url('/masks/personagem-1.png')) !important;
+    mask-image: var(--mask-url, url("/masks/personagem-1.png")) !important;
     mask-repeat: no-repeat !important;
     mask-position: center !important;
     mask-size: cover !important;
@@ -674,18 +674,17 @@ button,
   }
 
   .mana {
-  font-size: 1em;
-  bottom: 10.8em;
-  right: 28em;
-  width: 6%;
-  z-index: 9999;
-}
+    font-size: 1em;
+    bottom: 10.8em;
+    right: 28em;
+    width: 6%;
+    z-index: 9999;
+  }
 
   .proficiencia,
   .mana {
     z-index: 20 !important;
   }
-
 }
 
 .screen-only {
@@ -694,4 +693,11 @@ button,
 
 .print-only {
   display: none;
+}
+
+select#deuses_icon {
+    position: absolute;
+    bottom: 5.65em;
+    right: 17em;
+    z-index: 10;
 }
