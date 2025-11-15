@@ -2,7 +2,6 @@ import React from "react";
 
 interface ClasseImagemProps {
   classe?: string;
-  style?: React.CSSProperties;
 }
 
 const IMAGENS_CLASSES: Record<string, string> = {
@@ -24,7 +23,7 @@ const IMAGENS_CLASSES: Record<string, string> = {
   pajem: "/classes/pajem.png",
 };
 
-const ClasseImagem: React.FC<ClasseImagemProps> = ({ classe, style }) => {
+const ClasseImagem: React.FC<ClasseImagemProps> = ({ classe }) => {
   if (!classe || !IMAGENS_CLASSES[classe]) return null;
 
   return (
@@ -32,11 +31,6 @@ const ClasseImagem: React.FC<ClasseImagemProps> = ({ classe, style }) => {
       src={IMAGENS_CLASSES[classe]}
       alt={classe}
       className="classe-imagem absolute transition-all duration-500"
-      style={{
-        width: "12em",
-        opacity: 0.95,
-        ...style, // permite ajustar via props
-      }}
     />
   );
 };

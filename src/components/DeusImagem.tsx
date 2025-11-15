@@ -2,7 +2,6 @@ import React from "react";
 
 interface DeusImagemProps {
   deus?: string;
-  style?: React.CSSProperties;
 }
 
 const IMAGENS_DEUSES: Record<string, string> = {
@@ -12,6 +11,7 @@ const IMAGENS_DEUSES: Record<string, string> = {
   azgher: "/deuses/azgher.png",
   hynnin: "/deuses/hynnin.png",
   kallyadranoch: "/deuses/kallyadranoch.png",
+  khalmyr: "/deuses/khalmyr.png",
   lena: "/deuses/lena.png",
   linwu: "/deuses/linwu.png",
   marah: "/deuses/marah.png",
@@ -21,6 +21,7 @@ const IMAGENS_DEUSES: Record<string, string> = {
   sszzaas: "/deuses/sszzaas.png",
   tannatoh: "/deuses/tannatoh.png",
   tenebra: "/deuses/tenebra.png",
+  thwor: "/deuses/thwor.png",
   thyatis: "/deuses/thyatis.png",
   valkaria: "/deuses/valkaria.png",
   wynna: "/deuses/wynna.png",
@@ -29,7 +30,7 @@ const IMAGENS_DEUSES: Record<string, string> = {
 // Caminho da imagem padrão
 const FALLBACK = "/deuses/tumba.png";
 
-const DeusImagem: React.FC<DeusImagemProps> = ({ deus, style }) => {
+const DeusImagem: React.FC<DeusImagemProps> = ({ deus }) => {
   // se deus é vazio → usa fallback
   const imagem = deus && IMAGENS_DEUSES[deus] ? IMAGENS_DEUSES[deus] : FALLBACK;
 
@@ -38,11 +39,6 @@ const DeusImagem: React.FC<DeusImagemProps> = ({ deus, style }) => {
       src={imagem}
       alt={deus || "nenhum-deus"}
       className="deus-imagem absolute transition-all duration-500"
-      style={{
-        width: "12em",
-        opacity: 0.95,
-        ...style,
-      }}
     />
   );
 };

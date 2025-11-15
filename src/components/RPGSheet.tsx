@@ -64,6 +64,7 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
   );
   const [selectedClass, setSelectedClass] = useState<string>("");
   const [selectedDeus, setSelectedDeus] = useState<string>("");
+  const [nome, setNome] = useState<string>("");
 
   // Carregar estado salvo
   useEffect(() => {
@@ -75,6 +76,9 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
       if (typeof data?.nivel === "number") setNivel(data.nivel);
       if (typeof data?.selectedClass === "string")
         setSelectedClass(data.selectedClass);
+      if (typeof data?.selectedDeus === "string")
+        setSelectedDeus(data.selectedDeus);
+      if (typeof data?.nome === "string") setNome(data.nome);
       if (Array.isArray(data?.skills)) {
         const byName: Record<string, { atr: AttrKey; trained: boolean }> = {};
         data.skills.forEach((s: any) => {
@@ -98,6 +102,8 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
         attrs,
         nivel,
         selectedClass,
+        selectedDeus,
+        nome,
         skills: skills.map(({ nome, atr, trained }) => ({
           nome,
           atr,
@@ -106,7 +112,7 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
     } catch { }
-  }, [attrs, nivel, selectedClass, skills]);
+  }, [attrs, nivel, selectedClass, selectedDeus, nome, skills]);
 
   const handleClassSelect = (classe: string) => {
     setSelectedClass(classe);
@@ -264,7 +270,13 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
 
       {/* Input de nome*/}
       <div className="nome_personagem">
-        <input id="nome" type="text" placeholder="Bananilson Farofa" />
+        <input
+          id="nome"
+          type="text"
+          value={nome}
+          onChange={(e) => setNome(e.target.value)}
+          placeholder="Bananilson Farofa"
+        />
       </div>
 
       {/* Inputs de atributos - mesma posição do HTML original */}
@@ -410,24 +422,11 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
         <ClasseImagem
           key={selectedClass}
           classe={selectedClass}
-          style={{
-            width: "10.1em",
-            position: "absolute",
-            bottom: "34.76em",
-            left: "1.7em",
-            pointerEvents: "none",
-          }}
         />
       )}
 
       <DeusImagem
         deus={selectedDeus}
-        style={{
-          position: "absolute",
-          bottom: "2.5em",
-          right: "3em",
-          width: "7.5em",
-        }}
       />
 
       {/* Inputs de Armadura e Escudo */}
