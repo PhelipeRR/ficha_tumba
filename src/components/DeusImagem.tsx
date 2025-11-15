@@ -1,0 +1,50 @@
+import React from "react";
+
+interface DeusImagemProps {
+  deus?: string;
+  style?: React.CSSProperties;
+}
+
+const IMAGENS_DEUSES: Record<string, string> = {
+  aharadak: "/deuses/aharadak.png",
+  allihanna: "/deuses/allihanna.png",
+  arsenal: "/deuses/arsenal.png",
+  azgher: "/deuses/azgher.png",
+  hynnin: "/deuses/hynnin.png",
+  kallyadranoch: "/deuses/kallyadranoch.png",
+  lena: "/deuses/lena.png",
+  linwu: "/deuses/linwu.png",
+  marah: "/deuses/marah.png",
+  megalokk: "/deuses/megalokk.png",
+  nimb: "/deuses/nimb.png",
+  oceano: "/deuses/oceano.png",
+  sszzaas: "/deuses/sszzaas.png",
+  tannatoh: "/deuses/tannatoh.png",
+  tenebra: "/deuses/tenebra.png",
+  thyatis: "/deuses/thyatis.png",
+  valkaria: "/deuses/valkaria.png",
+  wynna: "/deuses/wynna.png",
+};
+
+// Caminho da imagem padrão
+const FALLBACK = "/deuses/tumba.png";
+
+const DeusImagem: React.FC<DeusImagemProps> = ({ deus, style }) => {
+  // se deus é vazio → usa fallback
+  const imagem = deus && IMAGENS_DEUSES[deus] ? IMAGENS_DEUSES[deus] : FALLBACK;
+
+  return (
+    <img
+      src={imagem}
+      alt={deus || "nenhum-deus"}
+      className="deus-imagem absolute transition-all duration-500"
+      style={{
+        width: "12em",
+        opacity: 0.95,
+        ...style,
+      }}
+    />
+  );
+};
+
+export default DeusImagem;

@@ -7,7 +7,8 @@ import ArmasSlide from "./ArmasSlide";
 import ClasseImagem from "./ClasseImagem";
 import EquipamentoInput from "./AmaduraInput";
 import { armas1, armas2, armas3, armas4 } from "./armasListas";
-
+import DeusImagem from "./DeusImagem";
+import DeusesSelect from "./DeusesSelect";
 
 const SKILLS: SkillBase[] = [
   { nome: "Acrobacia", atr: "des" },
@@ -62,6 +63,7 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
     SKILLS.map((s) => ({ ...s, trained: false }))
   );
   const [selectedClass, setSelectedClass] = useState<string>("");
+  const [selectedDeus, setSelectedDeus] = useState<string>("");
 
   // Carregar estado salvo
   useEffect(() => {
@@ -258,6 +260,7 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
       </div>
 
       <ClassesSelect onSelectClass={handleClassSelect} value={selectedClass} />
+      <DeusesSelect onSelectDeus={setSelectedDeus} value={selectedDeus} />
 
       {/* Input de nome*/}
       <div className="nome_personagem">
@@ -398,7 +401,6 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
         }}
       />
 
-
       {/* Imagem da classe — reativa à seleção */}
       {selectedClass && (
         <ClasseImagem
@@ -414,21 +416,28 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
         />
       )}
 
-          
+      <DeusImagem
+        deus={selectedDeus}
+        style={{
+          position: "absolute",
+          bottom: "2.5em",
+          right: "3em",
+          width: "7.5em",
+        }}
+      />
 
       {/* Inputs de Armadura e Escudo */}
       <div className="armaduras">
         <EquipamentoInput
-        tipo="Armadura"
-        onChange={(data) => console.log("Armadura:", data)}
-      />
+          tipo="Armadura"
+          onChange={(data) => console.log("Armadura:", data)}
+        />
 
-      <EquipamentoInput
-        tipo="Escudo"
-        onChange={(data) => console.log("Escudo:", data)}
-      />
+        <EquipamentoInput
+          tipo="Escudo"
+          onChange={(data) => console.log("Escudo:", data)}
+        />
       </div>
-      
     </div>
   );
 };
