@@ -9,6 +9,7 @@ const DeusesSelect: React.FC<Props> = ({ onSelectDeus, value }) => {
   return (
     <div>
       <select
+        className="deuses-select"
         id="deuses_icon"
         onChange={(e) => onSelectDeus(e.target.value)}
         value={value ?? ""}

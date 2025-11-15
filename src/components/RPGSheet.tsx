@@ -410,24 +410,11 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
         <ClasseImagem
           key={selectedClass}
           classe={selectedClass}
-          style={{
-            width: "10.1em",
-            position: "absolute",
-            bottom: "34.76em",
-            left: "1.7em",
-            pointerEvents: "none",
-          }}
         />
       )}
 
       <DeusImagem
         deus={selectedDeus}
-        style={{
-          position: "absolute",
-          bottom: "2.5em",
-          right: "3em",
-          width: "7.5em",
-        }}
       />
 
       {/* Inputs de Armadura e Escudo */}
