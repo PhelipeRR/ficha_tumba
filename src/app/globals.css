@@ -153,6 +153,7 @@ select {
   background-size: cover;
   background-position: center;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  border-radius: 16px;
   overflow: hidden;
   font-size: clamp(10px, 1.1vw, 16px);
   font-family: 'Sherwood', serif;
@@ -234,7 +235,7 @@ select {
 .logo-red {
   width: 140px;
   height: 140px;
-  background-color: rgb(220 38 38); /* Tailwind red-600 */
+  background-color: rgb(220 38 38);
   -webkit-mask-image: url('/logo.png');
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -310,7 +311,6 @@ input[type="number"] {
   appearance: textfield;
 }
 
-/* Cursor pointer em elementos editáveis/interativos */
 select#classes_icon,
 select.atr,
 input[type="number"],
@@ -482,16 +482,16 @@ button,
 }
 
 .armaduras {
-    width: 46%;
-    position: absolute;
-    bottom: 15em;
-    right: 1em;
-    z-index: 10;
+  width: 46%;
+  position: absolute;
+  bottom: 15em;
+  right: 1em;
+  z-index: 10;
 }
 
 
 .w-full.flex.justify-between.items-center.mt-2.opacity-0.group-hover\:opacity-100.transition-opacity.z-20 {
-    margin-left: -19px;
+  margin-left: -19px;
 }
 
 .skills-column {

@@ -56,7 +56,9 @@ export default function Home() {
 
   return (
     <>
-      <Navbar />
+      <div className="no-print">
+        <Navbar />
+      </div>
       <main className="flex-1 bg-background py-8 px-4">
         <div className="mx-auto max-w-7xl">
           <div className="flex justify-center gap-4">
@@ -71,7 +73,7 @@ export default function Home() {
                 />
               </RPGSheet>
             </section>
-            <div>
+            <div className="no-print">
               <section className="space-y-3">
                 <ImageUploadPanel
                   onFileSelect={handleFileSelect}
@@ -88,12 +90,21 @@ export default function Home() {
                   onZoomChange={setZoom}
                   onReset={handleReset}
                 />
+                <button
+                  type="button"
+                  onClick={() => window.print()}
+                  className="w-full bg-primary text-primary-foreground rounded-md px-4 py-2 transition-opacity hover:opacity-90"
+                >
+                  Imprimir / PDF
+                </button>
               </section>
             </div>
           </div>
         </div>
       </main>
-      <Footer />
+      <div className="no-print">
+        <Footer />
+      </div>
     </>
   )
 }

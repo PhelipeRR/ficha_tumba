@@ -89,7 +89,7 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
           }))
         );
       }
-    } catch {}
+    } catch { }
   }, []);
 
   useEffect(() => {
@@ -105,7 +105,7 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
         })),
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
-    } catch {}
+    } catch { }
   }, [attrs, nivel, selectedClass, skills]);
 
   const handleClassSelect = (classe: string) => {
@@ -211,10 +211,10 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
       nivel >= 1 && nivel <= 6
         ? 2
         : nivel >= 7 && nivel <= 14
-        ? 4
-        : nivel >= 15
-        ? 6
-        : 0;
+          ? 4
+          : nivel >= 15
+            ? 6
+            : 0;
 
     const halfLevel = Math.floor(nivel / 2);
 
@@ -351,10 +351,10 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
             nivel >= 1 && nivel <= 6
               ? "+2"
               : nivel >= 7 && nivel <= 14
-              ? "+4"
-              : nivel >= 15
-              ? "+6"
-              : "+0"
+                ? "+4"
+                : nivel >= 15
+                  ? "+6"
+                  : "+0"
           }
           readOnly
         />
@@ -364,6 +364,7 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
       {/* Slide 1 */}
       <ArmasSlide
         armas={armas1}
+        className="armas1"
         position={{
           bottom: "11.7em",
           left: "22.6em",
@@ -374,6 +375,7 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
       {/* Slide 2 */}
       <ArmasSlide
         armas={armas2}
+        className="armas2"
         position={{
           bottom: "19.7em",
           left: "22.6em",
@@ -384,6 +386,7 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
       {/* Slide 3 */}
       <ArmasSlide
         armas={armas3}
+        className="armas3"
         position={{
           bottom: "27.5em",
           left: "22.6em",
@@ -394,6 +397,7 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
       {/* Slide 4 */}
       <ArmasSlide
         armas={armas4}
+        className="armas4"
         position={{
           bottom: "3.7em",
           left: "22.6em",
@@ -432,7 +436,14 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
           tipo="Armadura"
           onChange={(data) => console.log("Armadura:", data)}
         />
+          tipo="Armadura"
+          onChange={(data) => console.log("Armadura:", data)}
+        />
 
+        <EquipamentoInput
+          tipo="Escudo"
+          onChange={(data) => console.log("Escudo:", data)}
+        />
         <EquipamentoInput
           tipo="Escudo"
           onChange={(data) => console.log("Escudo:", data)}
