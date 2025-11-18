@@ -9,6 +9,7 @@ import EquipamentoInput from "./AmaduraInput";
 import { armas1, armas2, armas3, armas4 } from "./armasListas";
 import DeusImagem from "./DeusImagem";
 import DeusesSelect from "./DeusesSelect";
+import WeaponInputs from "./ArmaInput";
 
 const SKILLS: SkillBase[] = [
   { nome: "Acrobacia", atr: "des" },
@@ -66,6 +67,38 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
   const [selectedDeus, setSelectedDeus] = useState<string>("");
   const [nome, setNome] = useState<string>("");
 
+  const [arma1, setArma1] = useState({
+    nome: "",
+    ataque: "",
+    critico: "",
+    tipo: "",
+    dano: "",
+  });
+
+  const [arma2, setArma2] = useState({
+    nome: "",
+    ataque: "",
+    critico: "",
+    tipo: "",
+    dano: "",
+  });
+
+  const [arma3, setArma3] = useState({
+    nome: "",
+    ataque: "",
+    critico: "",
+    tipo: "",
+    dano: "",
+  });
+
+  const [arma4, setArma4] = useState({
+    nome: "",
+    ataque: "",
+    critico: "",
+    tipo: "",
+    dano: "",
+  });
+
   // Carregar estado salvo
   useEffect(() => {
     try {
@@ -93,7 +126,7 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
           }))
         );
       }
-    } catch { }
+    } catch {}
   }, []);
 
   useEffect(() => {
@@ -111,7 +144,7 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
         })),
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
-    } catch { }
+    } catch {}
   }, [attrs, nivel, selectedClass, selectedDeus, nome, skills]);
 
   const handleClassSelect = (classe: string) => {
@@ -217,10 +250,10 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
       nivel >= 1 && nivel <= 6
         ? 2
         : nivel >= 7 && nivel <= 14
-          ? 4
-          : nivel >= 15
-            ? 6
-            : 0;
+        ? 4
+        : nivel >= 15
+        ? 6
+        : 0;
 
     const halfLevel = Math.floor(nivel / 2);
 
@@ -363,10 +396,10 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
             nivel >= 1 && nivel <= 6
               ? "+2"
               : nivel >= 7 && nivel <= 14
-                ? "+4"
-                : nivel >= 15
-                  ? "+6"
-                  : "+0"
+              ? "+4"
+              : nivel >= 15
+              ? "+6"
+              : "+0"
           }
           readOnly
         />
@@ -419,14 +452,33 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
 
       {/* Imagem da classe — reativa à seleção */}
       {selectedClass && (
-        <ClasseImagem
-          key={selectedClass}
-          classe={selectedClass}
-        />
+        <ClasseImagem key={selectedClass} classe={selectedClass} />
       )}
 
-      <DeusImagem
-        deus={selectedDeus}
+      <DeusImagem deus={selectedDeus} />
+
+      <WeaponInputs
+        wrapperClass="arma1-inputs"
+        weapon={arma1}
+        onChange={setArma1}
+      />
+
+      <WeaponInputs
+        wrapperClass="arma2-inputs"
+        weapon={arma2}
+        onChange={setArma2}
+      />
+
+      <WeaponInputs
+        wrapperClass="arma3-inputs"
+        weapon={arma3}
+        onChange={setArma3}
+      />
+
+      <WeaponInputs
+        wrapperClass="arma4-inputs"
+        weapon={arma4}
+        onChange={setArma4}
       />
 
       {/* Inputs de Armadura e Escudo */}
@@ -435,7 +487,6 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
           tipo="Armadura"
           onChange={(data) => console.log("Armadura:", data)}
         />
-          
 
         <EquipamentoInput
           tipo="Escudo"

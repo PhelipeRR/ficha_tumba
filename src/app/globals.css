@@ -712,3 +712,55 @@ select#deuses_icon {
     right: 17em;
     z-index: 10;
 }
+
+.arma1-inputs {
+  position: absolute;
+  bottom: 60em;
+  left: 10.5em;
+  font-size: 8px !important;
+  color: #4e4122;
+  line-height: 8px;
+}
+
+.arma2-inputs {
+  position: absolute;
+  bottom: 45em;
+  left: 10.5em;
+  font-size: 8px !important;
+  color: #4e4122;
+  line-height: 8px;
+}
+
+.arma3-inputs {
+  position: absolute;
+  bottom: 28.7em;
+  left: 10.5em;
+  font-size: 8px !important;
+  color: #4e4122;
+  line-height: 8px;
+}
+
+.arma4-inputs {
+  position: absolute;
+  bottom: 18.5em;
+  left: 10.5em;
+  font-size: 8px !important;
+  color: #4e4122;
+  line-height: 8px;
+}
+
+.nome-arma { width: 12.8em; text-align: left}
+.ataque-arma { width: 5.0em; text-align: left;}
+.crit-arma { width: 3.5em; text-align: left}
+.dano-arma { width: 3.5em; text-align: left}
+.tipo-arma { width: 12.5em; text-align: left}
+
+.flex.gap-3.items-end {
+  margin-top: 30px;
+  font-size: 10px;
+}
+
+input.filled {
+  border-bottom-color: transparent !important;
+}
+
