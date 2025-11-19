@@ -10,6 +10,7 @@ import { armas1, armas2, armas3, armas4 } from "./armasListas";
 import DeusImagem from "./DeusImagem";
 import DeusesSelect from "./DeusesSelect";
 import WeaponInputs from "./ArmaInput";
+import ReusableInput from "./RacaOrigem";
 
 const SKILLS: SkillBase[] = [
   { nome: "Acrobacia", atr: "des" },
@@ -66,6 +67,23 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
   const [selectedClass, setSelectedClass] = useState<string>("");
   const [selectedDeus, setSelectedDeus] = useState<string>("");
   const [nome, setNome] = useState<string>("");
+  const [raca, setRaca] = useState("");
+  const [origem, setOrigem] = useState("");
+  const [jogador, setJogador] = useState("");
+  const [armadura, setArmadura] = useState({
+    nome: "",
+    defesa: 0,
+    penalidade: 0,
+    rd: 0,
+  });
+  const [escudo, setEscudo] = useState({
+    nome: "",
+    defesa: 0,
+    penalidade: 0,
+    rd: 0,
+  });
+  const defesaTotal = armadura.defesa + escudo.defesa;
+  const rdTotal = armadura.rd + escudo.rd;
 
   const [arma1, setArma1] = useState({
     nome: "",
@@ -405,6 +423,20 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
         />
       </div>
 
+      <ReusableInput value={raca} onChange={setRaca} className="raca-input" />
+
+      <ReusableInput
+        value={origem}
+        onChange={setOrigem}
+        className="origem-input"
+      />
+
+      <ReusableInput
+        value={jogador}
+        onChange={setJogador}
+        className="jogador-input"
+      />
+
       {/* Slide de armas */}
       {/* Slide 1 */}
       <ArmasSlide
@@ -485,13 +517,21 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
       <div className="armaduras">
         <EquipamentoInput
           tipo="Armadura"
-          onChange={(data) => console.log("Armadura:", data)}
+          onChange={(data) => setArmadura(data)}
         />
 
-        <EquipamentoInput
-          tipo="Escudo"
-          onChange={(data) => console.log("Escudo:", data)}
-        />
+        <EquipamentoInput tipo="Escudo" onChange={(data) => setEscudo(data)} />
+      </div>
+
+      {/* Total de Armadura e Escudo */}
+      <div className="totais-armadura-escudo">
+        <div className="defesa-total">
+          <input type="number" readOnly value={defesaTotal} />
+        </div>
+
+        <div className="rd-total">
+          <input type="number" readOnly value={rdTotal} />
+        </div>
       </div>
     </div>
   );
