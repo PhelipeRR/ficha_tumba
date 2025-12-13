@@ -22,6 +22,7 @@ const DeusesSelect: React.FC<Props> = ({ onSelectDeus, value }) => {
           azgher: "",
           hynnin: "",
           kallyadranoch: "",
+          khalmyr: "",
           lena: "",
           linwu: "",
           marah: "",
@@ -32,6 +33,7 @@ const DeusesSelect: React.FC<Props> = ({ onSelectDeus, value }) => {
           tannatoh: "",
           tenebra: "",
           thyatis: "",
+          thwor: "",
           valkaria: "",
           wynna: "",
         }).map((deus) => (

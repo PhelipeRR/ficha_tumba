@@ -1,69 +1,76 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 
 interface Props {
   tipo: "Armadura" | "Escudo";
-  onChange?: (data: { nome: string; valor: number; penalidade: number }) => void;
+  onChange?: (data: {
+    nome: string;
+    defesa: number;
+    penalidade: number;
+    rd: number;
+  }) => void;
 }
 
 const EquipamentoInput: React.FC<Props> = ({ tipo, onChange }) => {
-  const [nome, setNome] = useState<string>("");
-  const [valor, setValor] = useState<string>("");
-  const [penalidade, setPenalidade] = useState<string>("");
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [nome, setNome] = useState("");
+  const [defesa, setDefesa] = useState("");
+  const [penalidade, setPenalidade] = useState("");
+  const [rd, setRd] = useState("");
 
-  const handleChange = () => {
-    onChange?.({
-      nome,
-      valor: Number(valor) || 0,
-      penalidade: Number(penalidade) || 0,
-    });
+  const update = (field: string, value: string) => {
+    const novo = {
+      nome: field === "nome" ? value : nome,
+      defesa: field === "defesa" ? Number(value) || 0 : Number(defesa) || 0,
+      penalidade: field === "penalidade" ? Number(value) || 0 : Number(penalidade) || 0,
+      rd: field === "rd" ? Number(value) || 0 : Number(rd) || 0,
+    };
+
+    onChange?.(novo);
   };
 
-  // Auto-resize do textarea
-  useEffect(() => {
-    if (textareaRef.current) {
-      textareaRef.current.style.height = "auto"; // reset
-      textareaRef.current.style.height = textareaRef.current.scrollHeight + "px"; // ajustar altura
-    }
-  }, [nome]);
-
   return (
-    <div style={{ display: "flex", gap: "1em", alignItems: "flex-start", marginBottom: "1em" }}>
-      {/* Nome da Armadura/Escudo */}
-      <textarea
-        ref={textareaRef}
-        className="nomeArmadura"
+    <div className="flex gap-3 items-end equipamento-inputs">
+      <input
+        type="text"
+        className={`nomeEquip ${nome ? "filled" : ""}`}
         placeholder={tipo}
         value={nome}
-        onChange={(e) => { setNome(e.target.value); handleChange(); }}
-        style={{
-          width: "10em",
-          resize: "none",
-          overflow: "hidden",
-          whiteSpace: "normal",
-          wordBreak: "break-word",
+        onChange={(e) => {
+          setNome(e.target.value);
+          update("nome", e.target.value);
         }}
-        rows={1}
       />
 
-      {/* Bônus de Defesa */}
       <input
-        className="bonusDefesa"
         type="number"
-        placeholder="Defesa"
-        value={valor}
-        onChange={(e) => { setValor(e.target.value); handleChange(); }}
-        style={{ width: "4em" }}
+        className={`defEquip ${defesa ? "filled" : ""}`}
+        placeholder="Def"
+        value={defesa}
+        onChange={(e) => {
+          setDefesa(e.target.value);
+          update("defesa", e.target.value);
+        }}
       />
 
-      {/* Penalidade */}
       <input
-        className="penalidadeArmadura"
         type="number"
-        placeholder="Penalidade"
+        className={`penEquip ${penalidade ? "filled" : ""}`}
+        placeholder="Pen"
         value={penalidade}
-        onChange={(e) => { setPenalidade(e.target.value); handleChange(); }}
-        style={{ width: "6em" }}
+        onChange={(e) => {
+          setPenalidade(e.target.value);
+          update("penalidade", e.target.value);
+        }}
+      />
+
+      <input
+        type="number"
+        className={`rdEquip ${rd ? "filled" : ""}`}
+        placeholder="RD"
+        value={rd}
+        onChange={(e) => {
+          setRd(e.target.value);
+          update("rd", e.target.value);
+        }}
       />
     </div>
   );
