@@ -82,7 +82,7 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
     penalidade: 0,
     rd: 0,
   });
-  const defesaTotal = armadura.defesa + escudo.defesa;
+  const defesaTotal = 10 + armadura.defesa + escudo.defesa;
   const rdTotal = armadura.rd + escudo.rd;
 
   const [arma1, setArma1] = useState({
@@ -263,27 +263,46 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
     return classe.porNivel * nivelValido + modAtributo;
   }, [selectedClass, attrs, nivel]);
 
-  const computedSkills = useMemo(() => {
-    const profBonus =
-      nivel >= 1 && nivel <= 6
-        ? 2
-        : nivel >= 7 && nivel <= 14
-        ? 4
-        : nivel >= 15
-        ? 6
-        : 0;
+ const computedSkills = useMemo(() => {
+  const profBonus =
+    nivel >= 1 && nivel <= 6
+      ? 2
+      : nivel >= 7 && nivel <= 14
+      ? 4
+      : nivel >= 15
+      ? 6
+      : 0;
 
-    const halfLevel = Math.floor(nivel / 2);
+  const halfLevel = Math.floor(nivel / 2);
 
-    return skills.map((skill) => {
-      const modAtrib = attrs[skill.atr] || 0;
-      const treinoBonus = skill.trained ? profBonus : 0;
+  // Penalidade total vinda da armadura + escudo
+  const penalidadeArmadura =
+    (armadura?.penalidade || 0) + (escudo?.penalidade || 0);
 
-      const total = modAtrib + halfLevel + treinoBonus;
+  // Perícias que sofrem penalidade
+  const periciasComPenalidade = [
+    "acrobacia",
+    "atletismo",
+    "furtividade",
+    "ladinagem",
+  ];
 
-      return { ...skill, value: total };
-    });
-  }, [skills, attrs, nivel]);
+  return skills.map((skill) => {
+    const modAtrib = attrs[skill.atr] || 0;
+    const treinoBonus = skill.trained ? profBonus : 0;
+
+    let total = modAtrib + halfLevel + treinoBonus;
+
+    // Aplica penalidade se a perícia estiver na lista
+    if (periciasComPenalidade.includes(skill.nome.toLowerCase())) {
+      total -= penalidadeArmadura;
+    }
+
+    return { ...skill, value: total };
+  });
+}, [skills, attrs, nivel, armadura, escudo]);
+
+
 
   const handleAttrChange = (name: AttrKey, val: string) => {
     setAttrs((prev) => ({ ...prev, [name]: Number(val) || 0 }));
