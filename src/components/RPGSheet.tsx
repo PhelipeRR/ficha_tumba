@@ -46,11 +46,12 @@ const SKILLS: SkillBase[] = [
 
 interface RPGSheetProps {
   children?: React.ReactNode;
+  isFlipped?: boolean;
 }
 
 const STORAGE_KEY = "rpgsheet:v1";
 
-const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
+const RPGSheet: React.FC<RPGSheetProps> = ({ children, isFlipped = false }) => {
   const [attrs, setAttrs] = useState<Record<AttrKey, number>>({
     des: 0,
     for: 0,
@@ -319,241 +320,261 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children }) => {
   };
 
   return (
-    <div className="sheet font-[CloisterBlack] relative">
-      {children}
-      {/* Coluna de perícias */}
-      <div className="skills-column">
-        {computedSkills.map((skill) => (
-          <SkillRow
-            key={skill.nome}
-            skill={skill}
-            attribute={skill.atr}
-            trained={skill.trained}
-            value={skill.value}
-            onChange={handleSkillChange}
+    <div className={`sheet font-[CloisterBlack] ${isFlipped ? "flipped" : ""}`}>
+      <div className="sheet-inner">
+        {/* Frente da Ficha */}
+        <div className="page-face page-front">
+          {children}
+          {/* Coluna de perícias */}
+          <div className="skills-column">
+            {computedSkills.map((skill) => (
+              <SkillRow
+                key={skill.nome}
+                skill={skill}
+                attribute={skill.atr}
+                trained={skill.trained}
+                value={skill.value}
+                onChange={handleSkillChange}
+              />
+            ))}
+          </div>
+
+          <ClassesSelect
+            onSelectClass={handleClassSelect}
+            value={selectedClass}
           />
-        ))}
-      </div>
+          <DeusesSelect onSelectDeus={setSelectedDeus} value={selectedDeus} />
 
-      <ClassesSelect onSelectClass={handleClassSelect} value={selectedClass} />
-      <DeusesSelect onSelectDeus={setSelectedDeus} value={selectedDeus} />
+          {/* Input de nome*/}
+          <div className="nome_personagem">
+            <input
+              id="nome"
+              type="text"
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+              placeholder="Bananilson Farofa"
+            />
+          </div>
 
-      {/* Input de nome*/}
-      <div className="nome_personagem">
-        <input
-          id="nome"
-          type="text"
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
-          placeholder="Bananilson Farofa"
-        />
-      </div>
+          {/* Inputs de atributos - mesma posição do HTML original */}
+          <div className="attr destreza">
+            <input
+              id="des"
+              type="number"
+              value={attrs.des}
+              onChange={(e) => handleAttrChange("des", e.target.value)}
+            />
+          </div>
 
-      {/* Inputs de atributos - mesma posição do HTML original */}
-      <div className="attr destreza">
-        <input
-          id="des"
-          type="number"
-          value={attrs.des}
-          onChange={(e) => handleAttrChange("des", e.target.value)}
-        />
-      </div>
+          <div className="attr forca">
+            <input
+              id="for"
+              type="number"
+              value={attrs.for}
+              onChange={(e) => handleAttrChange("for", e.target.value)}
+            />
+          </div>
 
-      <div className="attr forca">
-        <input
-          id="for"
-          type="number"
-          value={attrs.for}
-          onChange={(e) => handleAttrChange("for", e.target.value)}
-        />
-      </div>
+          <div className="attr constituicao">
+            <input
+              id="con"
+              type="number"
+              value={attrs.con}
+              onChange={(e) => handleAttrChange("con", e.target.value)}
+            />
+          </div>
 
-      <div className="attr constituicao">
-        <input
-          id="con"
-          type="number"
-          value={attrs.con}
-          onChange={(e) => handleAttrChange("con", e.target.value)}
-        />
-      </div>
+          <div className="attr inteligencia">
+            <input
+              id="int"
+              type="number"
+              value={attrs.int}
+              onChange={(e) => handleAttrChange("int", e.target.value)}
+            />
+          </div>
 
-      <div className="attr inteligencia">
-        <input
-          id="int"
-          type="number"
-          value={attrs.int}
-          onChange={(e) => handleAttrChange("int", e.target.value)}
-        />
-      </div>
+          <div className="attr sabedoria">
+            <input
+              id="sab"
+              type="number"
+              value={attrs.sab}
+              onChange={(e) => handleAttrChange("sab", e.target.value)}
+            />
+          </div>
 
-      <div className="attr sabedoria">
-        <input
-          id="sab"
-          type="number"
-          value={attrs.sab}
-          onChange={(e) => handleAttrChange("sab", e.target.value)}
-        />
-      </div>
+          <div className="attr carisma">
+            <input
+              id="car"
+              type="number"
+              value={attrs.car}
+              onChange={(e) => handleAttrChange("car", e.target.value)}
+            />
+          </div>
 
-      <div className="attr carisma">
-        <input
-          id="car"
-          type="number"
-          value={attrs.car}
-          onChange={(e) => handleAttrChange("car", e.target.value)}
-        />
-      </div>
+          {/* HP */}
+          <div className="hp">
+            <input id="hp" type="number" value={computedVida} readOnly />
+          </div>
 
-      {/* HP */}
-      <div className="hp">
-        <input id="hp" type="number" value={computedVida} readOnly />
-      </div>
+          {/* Mana */}
+          <div className="mana">
+            <input id="mana" type="number" value={computedMana} readOnly />
+          </div>
 
-      {/* Mana */}
-      <div className="mana">
-        <input id="mana" type="number" value={computedMana} readOnly />
-      </div>
+          {/* Nível */}
+          <div className="level">
+            <input
+              id="nivel"
+              type="number"
+              value={nivel}
+              onChange={(e) => setNivel(Number(e.target.value) || 0)}
+            />
+          </div>
 
-      {/* Nível */}
-      <div className="level">
-        <input
-          id="nivel"
-          type="number"
-          value={nivel}
-          onChange={(e) => setNivel(Number(e.target.value) || 0)}
-        />
-      </div>
+          {/* Proficiência */}
+          <div className="proficiencia">
+            <input
+              id="proficiencia"
+              type="text" // muda pra text pra exibir o "+"
+              value={
+                nivel >= 1 && nivel <= 6
+                  ? "+2"
+                  : nivel >= 7 && nivel <= 14
+                  ? "+4"
+                  : nivel >= 15
+                  ? "+6"
+                  : "+0"
+              }
+              readOnly
+            />
+          </div>
 
-      {/* Proficiência */}
-      <div className="proficiencia">
-        <input
-          id="proficiencia"
-          type="text" // muda pra text pra exibir o "+"
-          value={
-            nivel >= 1 && nivel <= 6
-              ? "+2"
-              : nivel >= 7 && nivel <= 14
-              ? "+4"
-              : nivel >= 15
-              ? "+6"
-              : "+0"
-          }
-          readOnly
-        />
-      </div>
+          <ReusableInput
+            value={raca}
+            onChange={setRaca}
+            className="raca-input"
+          />
 
-      <ReusableInput value={raca} onChange={setRaca} className="raca-input" />
+          <ReusableInput
+            value={origem}
+            onChange={setOrigem}
+            className="origem-input"
+          />
 
-      <ReusableInput
-        value={origem}
-        onChange={setOrigem}
-        className="origem-input"
-      />
+          <ReusableInput
+            value={jogador}
+            onChange={setJogador}
+            className="jogador-input"
+          />
 
-      <ReusableInput
-        value={jogador}
-        onChange={setJogador}
-        className="jogador-input"
-      />
+          {/* Slide de armas */}
+          {/* Slide 1 */}
+          <ArmasSlide
+            armas={armas1}
+            className="armas1"
+            position={{
+              bottom: "11.7em",
+              left: "22.6em",
+              width: "5em",
+            }}
+          />
 
-      {/* Slide de armas */}
-      {/* Slide 1 */}
-      <ArmasSlide
-        armas={armas1}
-        className="armas1"
-        position={{
-          bottom: "11.7em",
-          left: "22.6em",
-          width: "5em",
-        }}
-      />
+          {/* Slide 2 */}
+          <ArmasSlide
+            armas={armas2}
+            className="armas2"
+            position={{
+              bottom: "19.7em",
+              left: "22.6em",
+              width: "5em",
+            }}
+          />
 
-      {/* Slide 2 */}
-      <ArmasSlide
-        armas={armas2}
-        className="armas2"
-        position={{
-          bottom: "19.7em",
-          left: "22.6em",
-          width: "5em",
-        }}
-      />
+          {/* Slide 3 */}
+          <ArmasSlide
+            armas={armas3}
+            className="armas3"
+            position={{
+              bottom: "27.5em",
+              left: "22.6em",
+              width: "5em",
+            }}
+          />
 
-      {/* Slide 3 */}
-      <ArmasSlide
-        armas={armas3}
-        className="armas3"
-        position={{
-          bottom: "27.5em",
-          left: "22.6em",
-          width: "5em",
-        }}
-      />
+          {/* Slide 4 */}
+          <ArmasSlide
+            armas={armas4}
+            className="armas4"
+            position={{
+              bottom: "3.7em",
+              left: "22.6em",
+              width: "5em",
+            }}
+          />
 
-      {/* Slide 4 */}
-      <ArmasSlide
-        armas={armas4}
-        className="armas4"
-        position={{
-          bottom: "3.7em",
-          left: "22.6em",
-          width: "5em",
-        }}
-      />
+          {/* Imagem da classe — reativa à seleção */}
+          {selectedClass && (
+            <ClasseImagem key={selectedClass} classe={selectedClass} />
+          )}
 
-      {/* Imagem da classe — reativa à seleção */}
-      {selectedClass && (
-        <ClasseImagem key={selectedClass} classe={selectedClass} />
-      )}
+          <DeusImagem deus={selectedDeus} />
 
-      <DeusImagem deus={selectedDeus} />
+          <WeaponInputs
+            wrapperClass="arma1-inputs"
+            weapon={arma1}
+            onChange={setArma1}
+          />
 
-      <WeaponInputs
-        wrapperClass="arma1-inputs"
-        weapon={arma1}
-        onChange={setArma1}
-      />
+          <WeaponInputs
+            wrapperClass="arma2-inputs"
+            weapon={arma2}
+            onChange={setArma2}
+          />
 
-      <WeaponInputs
-        wrapperClass="arma2-inputs"
-        weapon={arma2}
-        onChange={setArma2}
-      />
+          <WeaponInputs
+            wrapperClass="arma3-inputs"
+            weapon={arma3}
+            onChange={setArma3}
+          />
 
-      <WeaponInputs
-        wrapperClass="arma3-inputs"
-        weapon={arma3}
-        onChange={setArma3}
-      />
+          <WeaponInputs
+            wrapperClass="arma4-inputs"
+            weapon={arma4}
+            onChange={setArma4}
+          />
 
-      <WeaponInputs
-        wrapperClass="arma4-inputs"
-        weapon={arma4}
-        onChange={setArma4}
-      />
+          {/* Inputs de Armadura e Escudo */}
+          <div className="armaduras">
+            <EquipamentoInput
+              tipo="Armadura"
+              onChange={(data) => setArmadura(data)}
+            />
 
-      {/* Inputs de Armadura e Escudo */}
-      <div className="armaduras">
-        <EquipamentoInput
-          tipo="Armadura"
-          onChange={(data) => setArmadura(data)}
-        />
+            <EquipamentoInput
+              tipo="Escudo"
+              onChange={(data) => setEscudo(data)}
+            />
+          </div>
 
-        <EquipamentoInput tipo="Escudo" onChange={(data) => setEscudo(data)} />
-      </div>
+          {/* Total de Armadura e Escudo */}
+          <div className="totais-armadura-escudo">
+            <div className="defesa-total">
+              <input type="number" readOnly value={defesaTotal} />
+            </div>
 
-      {/* Total de Armadura e Escudo */}
-      <div className="totais-armadura-escudo">
-        <div className="defesa-total">
-          <input type="number" readOnly value={defesaTotal} />
+            <div className="rd-total">
+              <input type="number" readOnly value={rdTotal} />
+            </div>
+          </div>
         </div>
 
-        <div className="rd-total">
-          <input type="number" readOnly value={rdTotal} />
+        {/* Verso da Ficha */}
+        <div className="page-face page-back">
+          <div className="p-8 text-center" style={{ paddingTop: "100px" }}>
+          </div>
         </div>
       </div>
     </div>
-  );
-};
+  );};
 
 export default RPGSheet;

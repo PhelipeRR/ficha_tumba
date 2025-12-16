@@ -148,14 +148,83 @@ select {
   position: relative;
   width: min(90vw, 970px);
   aspect-ratio: 210 / 297;
-  background-image: url("/bg.png");
-  background-size: cover;
-  background-position: center;
+  /* background-image moved to children */
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
   border-radius: 16px;
-  overflow: hidden;
   font-size: clamp(10px, 1.1vw, 16px);
   font-family: "Sherwood", serif;
+  perspective: 2000px; /* Enable 3D space */
+}
+
+/* Container for the 3D flip */
+.sheet-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.sheet.flipped .sheet-inner {
+  transform: rotateY(-180deg);
+}
+
+.page-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: 16px;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+
+.page-front {
+  background-image: url("/bg.png");
+  pointer-events: auto;
+}
+
+.page-back {
+  background-image: url("/RPG-pag-2.png");
+  transform: rotateY(180deg);
+  pointer-events: none;
+}
+
+.sheet.flipped .page-front {
+  pointer-events: none;
+}
+
+.sheet.flipped .page-back {
+  pointer-events: auto;
+}
+
+.page-turn-btn {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+  padding: 8px 16px;
+  background: rgba(78, 65, 34, 0.8);
+  color: #fff;
+  border: 1px solid #4e4122;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: "CloisterBlack";
+  font-size: 1.2em;
+  transition: all 0.2s;
+}
+
+.page-turn-btn:hover {
+  background: rgba(78, 65, 34, 1);
+  transform: scale(1.05);
+}
+
+.page-turn-btn.prev {
+  left: 20px;
+  right: auto;
 }
 
 .imgUpload {
@@ -571,12 +640,44 @@ button,
 
   .sheet {
     width: 210mm !important;
-    height: 297mm !important;
+    height: auto !important;
     aspect-ratio: auto !important;
     box-shadow: none !important;
     background-color: transparent !important;
     margin: 0 auto !important;
     border-radius: 0 !important;
+    perspective: none !important;
+  }
+
+  .sheet-inner {
+    transform: none !important;
+    height: auto !important;
+  }
+
+  .page-face {
+    position: relative !important;
+    width: 210mm !important;
+    height: 297mm !important;
+    page-break-after: always;
+    transform: none !important;
+    backface-visibility: visible !important;
+    left: auto !important;
+    top: auto !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    display: block !important;
+  }
+
+  .page-face:last-child {
+    page-break-after: auto;
+  }
+
+  .page-back {
+    transform: none !important;
+  }
+
+  .page-turn-btn {
+    display: none !important;
   }
 
   .imgUpload {

@@ -16,6 +16,7 @@ export default function Home() {
   const [zoom, setZoom] = useState(100)
   const [imageSrc, setImageSrc] = useState<string>("")
   const [fileName, setFileName] = useState<string>("")
+  const [isFlipped, setIsFlipped] = useState(false);
 
   const handleFileSelect = (file: File) => {
     const reader = new FileReader()
@@ -63,7 +64,7 @@ export default function Home() {
         <div className="mx-auto max-w-7xl">
           <div className="flex justify-center gap-4">
             <section id="sheet">
-              <RPGSheet>
+              <RPGSheet isFlipped={isFlipped}>
                 <ImageMaskView
                   src={imageSrc}
                   className="imgUpload masked-image"
@@ -96,6 +97,13 @@ export default function Home() {
                   className="w-full bg-primary text-primary-foreground rounded-md px-4 py-2 transition-opacity hover:opacity-90"
                 >
                   Imprimir / PDF
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsFlipped(!isFlipped)}
+                  className="w-full bg-[#4e4122] text-white rounded-md px-4 py-2 transition-opacity hover:opacity-90 mt-2"
+                >
+                  {isFlipped ? "Voltar para Frente" : "Ir para o Verso"}
                 </button>
               </section>
             </div>
