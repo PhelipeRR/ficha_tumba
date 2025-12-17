@@ -991,3 +991,45 @@ input.rdEquip {
 input.filled {
   border-bottom-color: transparent !important;
 }
+
+.reusable-textarea {
+  width: 100%;
+  resize: none;
+  background: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  padding: 6px 8px;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.reusable-textarea.filled {
+  border-color: transparent;
+}
+
+.reusable-textarea:focus {
+  outline: none;
+  border-color: rgba(0, 0, 0, 0.6);
+}
+
+.verso-inputs {
+  padding: 0 100px;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 16px;
+  width: 100%;
+}
+
+.magia-textarea {
+  grid-column: 1 / 2;
+}
+
+.poderes-textarea {
+  grid-column: 2 / 3;
+}
+
+.anotacoes-textarea {
+  margin-top: 25px;
+  grid-column: 1 / 3;
+}

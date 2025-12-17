@@ -11,6 +11,7 @@ import DeusImagem from "./DeusImagem";
 import DeusesSelect from "./DeusesSelect";
 import WeaponInputs from "./ArmaInput";
 import ReusableInput from "./RacaOrigem";
+import ReusableTextarea from "./ReusableTextArea";
 
 const SKILLS: SkillBase[] = [
   { nome: "Acrobacia", atr: "des" },
@@ -60,6 +61,10 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children, isFlipped = false }) => {
     sab: 0,
     car: 0,
   });
+
+  const [spells, setSpells] = useState("");
+  const [anotacoes, setAnotacoes] = useState("");
+  const [poderes, setPoderes] = useState("");
 
   const [nivel, setNivel] = useState(0);
   const [skills, setSkills] = useState<(SkillBase & { trained: boolean })[]>(
@@ -264,46 +269,44 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children, isFlipped = false }) => {
     return classe.porNivel * nivelValido + modAtributo;
   }, [selectedClass, attrs, nivel]);
 
- const computedSkills = useMemo(() => {
-  const profBonus =
-    nivel >= 1 && nivel <= 6
-      ? 2
-      : nivel >= 7 && nivel <= 14
-      ? 4
-      : nivel >= 15
-      ? 6
-      : 0;
+  const computedSkills = useMemo(() => {
+    const profBonus =
+      nivel >= 1 && nivel <= 6
+        ? 2
+        : nivel >= 7 && nivel <= 14
+        ? 4
+        : nivel >= 15
+        ? 6
+        : 0;
 
-  const halfLevel = Math.floor(nivel / 2);
+    const halfLevel = Math.floor(nivel / 2);
 
-  // Penalidade total vinda da armadura + escudo
-  const penalidadeArmadura =
-    (armadura?.penalidade || 0) + (escudo?.penalidade || 0);
+    // Penalidade total vinda da armadura + escudo
+    const penalidadeArmadura =
+      (armadura?.penalidade || 0) + (escudo?.penalidade || 0);
 
-  // Perícias que sofrem penalidade
-  const periciasComPenalidade = [
-    "acrobacia",
-    "atletismo",
-    "furtividade",
-    "ladinagem",
-  ];
+    // Perícias que sofrem penalidade
+    const periciasComPenalidade = [
+      "acrobacia",
+      "atletismo",
+      "furtividade",
+      "ladinagem",
+    ];
 
-  return skills.map((skill) => {
-    const modAtrib = attrs[skill.atr] || 0;
-    const treinoBonus = skill.trained ? profBonus : 0;
+    return skills.map((skill) => {
+      const modAtrib = attrs[skill.atr] || 0;
+      const treinoBonus = skill.trained ? profBonus : 0;
 
-    let total = modAtrib + halfLevel + treinoBonus;
+      let total = modAtrib + halfLevel + treinoBonus;
 
-    // Aplica penalidade se a perícia estiver na lista
-    if (periciasComPenalidade.includes(skill.nome.toLowerCase())) {
-      total -= penalidadeArmadura;
-    }
+      // Aplica penalidade se a perícia estiver na lista
+      if (periciasComPenalidade.includes(skill.nome.toLowerCase())) {
+        total -= penalidadeArmadura;
+      }
 
-    return { ...skill, value: total };
-  });
-}, [skills, attrs, nivel, armadura, escudo]);
-
-
+      return { ...skill, value: total };
+    });
+  }, [skills, attrs, nivel, armadura, escudo]);
 
   const handleAttrChange = (name: AttrKey, val: string) => {
     setAttrs((prev) => ({ ...prev, [name]: Number(val) || 0 }));
@@ -570,11 +573,39 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children, isFlipped = false }) => {
 
         {/* Verso da Ficha */}
         <div className="page-face page-back">
-          <div className="p-8 text-center" style={{ paddingTop: "100px" }}>
+          <div
+            className="p-8 text-center"
+            style={{ paddingTop: "100px" }}
+          ></div>
+          <div className="verso-inputs">
+            <ReusableTextarea
+              value={spells}
+              onChange={setSpells}
+              className="magia-textarea"
+              placeholder="Magias do personagem"
+              rows={38}
+            />
+
+            <ReusableTextarea
+              value={poderes}
+              onChange={setPoderes}
+              className="poderes-textarea"
+              placeholder="Poderes do personagem"
+              rows={38}
+            />
+
+            <ReusableTextarea
+              value={anotacoes}
+              onChange={setAnotacoes}
+              className="anotacoes-textarea"
+              placeholder="Anotações"
+              rows={14}
+            />
           </div>
         </div>
       </div>
     </div>
-  );};
+  );
+};
 
 export default RPGSheet;
