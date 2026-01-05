@@ -239,11 +239,11 @@ select {
 }
 
 .skills-column {
-  position: absolute;
-  top: 13.4%;
-  left: 8.15%;
-  width: 27.5%;
-  border-radius: 12px;
+    border-radius: 12px;
+    width: 31.5%;
+    position: absolute;
+    top: 13.4%;
+    left: 7.15%;
 }
 
 .skill-row {
@@ -274,6 +274,7 @@ select {
 }
 
 .skill-name {
+  text-align: left;
   flex: 1;
   font-size: 0.8em;
   color: #4e4122;
@@ -691,6 +692,22 @@ button,
     z-index: 0 !important;
   }
 
+.skills-column {
+  position: absolute;
+  top: 13.4%;
+  left: 7.80% !important;
+  width: 28.0% !important;
+  border-radius: 0px !important;
+}
+
+  .sheet .offset-controls {
+    display: none !important;
+  }
+
+  .skill-row {
+    width: 60% !important;
+  }
+
   .masked-image {
     -webkit-mask-image: var(
       --mask-url,
@@ -718,16 +735,16 @@ button,
   }
 
   .skills-column {
-    top: 13.4% !important;
-    left: 7.5% !important;
-    width: 26.5% !important;
-    box-sizing: border-box !important;
-    padding-left: 2mm !important;
-  }
+    border-radius: 12px;
+    width: 31.5%;
+    position: absolute;
+    top: 13.4%;
+    left: 7.15%;
+}
 
   .skill-row {
     height: 3.5mm !important;
-    width: 95% !important;
+    width: 90% !important;
   }
 
   .trained {
