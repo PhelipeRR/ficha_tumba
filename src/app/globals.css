@@ -635,8 +635,13 @@ button,
 
   nav,
   footer,
-  .no-print {
+  .no-print,
+  .screen-only {
     display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
   }
 
   .sheet {
@@ -841,6 +846,29 @@ button,
   .proficiencia,
   .mana {
     z-index: 20 !important;
+  }
+
+  .verso-spacer {
+    display: none !important;
+  }
+
+  .verso-inputs {
+    padding: 0 20mm !important;
+    margin-top: 25mm !important;
+    gap: 8mm !important;
+    width: 100% !important;
+  }
+
+  .magia-textarea,
+  .poderes-textarea {
+     height: 180mm !important;
+     max-height: 180mm !important;
+  }
+
+  .anotacoes-textarea {
+     margin-top: 1mm !important;
+     height: 70mm !important;
+     max-height: 70mm !important;
   }
 }
 
