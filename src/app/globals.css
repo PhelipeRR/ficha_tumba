@@ -239,11 +239,11 @@ select {
 }
 
 .skills-column {
-    border-radius: 12px;
-    width: 31.5%;
-    position: absolute;
-    top: 13.4%;
-    left: 7.15%;
+  border-radius: 12px;
+  width: 31.5%;
+  position: absolute;
+  top: 13.4%;
+  left: 7.15%;
 }
 
 .skill-row {
@@ -517,13 +517,13 @@ button,
   color: #4e4122;
   font-size: 2em;
   position: absolute;
-  bottom: 8.7em;
-  right: 6.5em;
+  bottom: 9.7em;
+  right: 6.6em;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   background: transparent;
-  width: 15%;
+  width: 13%;
   aspect-ratio: 1/1;
 }
 
@@ -543,10 +543,10 @@ button,
   color: #4e4122;
   font-size: 1em;
   position: absolute;
-  bottom: 32.8em;
-  right: 24em;
+  bottom: 33.4em;
+  right: 23.7em;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   background: transparent;
   width: 6%;
@@ -692,13 +692,13 @@ button,
     z-index: 0 !important;
   }
 
-.skills-column {
-  position: absolute;
-  top: 13.4%;
-  left: 7.80% !important;
-  width: 28.0% !important;
-  border-radius: 0px !important;
-}
+  .skills-column {
+    position: absolute;
+    top: 13.4%;
+    left: 7.8% !important;
+    width: 28% !important;
+    border-radius: 0px !important;
+  }
 
   .sheet .offset-controls {
     display: none !important;
@@ -740,7 +740,7 @@ button,
     position: absolute;
     top: 13.4%;
     left: 7.15%;
-}
+  }
 
   .skill-row {
     height: 3.5mm !important;
@@ -798,9 +798,30 @@ button,
   }
 
   .hp {
-    bottom: 11.5em;
+    position: absolute;
+    bottom: 9.7em;
     right: 8.5em;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
     width: 15%;
+    gap: 4px;
+  }
+
+  .hp button {
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    line-height: 18px;
+    text-align: center;
+    font-size: 14px;
+  }
+
+  .hp input {
+    flex: 1;
+    text-align: center;
   }
 
   .armaduras {
@@ -992,7 +1013,7 @@ input.rdEquip {
 .defesa-total input {
   font-family: "CloisterBlack";
   font-size: 3.5em;
-  width: 5em;
+  width: 3em;
   line-height: 1px;
 }
 
