@@ -574,7 +574,7 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children, isFlipped = false }) => {
         {/* Verso da Ficha */}
         <div className="page-face page-back">
           <div
-            className="p-8 text-center"
+            className="p-8 text-center verso-spacer"
             style={{ paddingTop: "100px" }}
           ></div>
           <div className="verso-inputs">
