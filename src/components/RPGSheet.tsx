@@ -347,6 +347,7 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children, isFlipped = false }) => {
                 trained={skill.trained}
                 value={skill.value}
                 onChange={handleSkillChange}
+                nivel={nivel}
               />
             ))}
           </div>
@@ -423,15 +424,14 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children, isFlipped = false }) => {
             />
           </div>
           {/* Nível */}
-<div className="level">
-  <input
-    id="nivel"
-    type="number"
-    value={nivel}
-    onChange={(e) => setNivel(Number(e.target.value) || 0)}
-  />
-</div>
-
+          <div className="level">
+            <input
+              id="nivel"
+              type="number"
+              value={nivel}
+              onChange={(e) => setNivel(Number(e.target.value) || 0)}
+            />
+          </div>
 
           {/* HP */}
           <div className="hp">
@@ -552,6 +552,24 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children, isFlipped = false }) => {
             weapon={arma4}
             onChange={setArma4}
           />
+
+          {/* Proficiência */}
+          <div className="proficiencia">
+            <input
+              id="proficiencia"
+              type="text"
+              readOnly
+              value={
+                nivel >= 1 && nivel <= 6
+                  ? "+2"
+                  : nivel >= 7 && nivel <= 14
+                  ? "+4"
+                  : nivel >= 15
+                  ? "+6"
+                  : "+0"
+              }
+            />
+          </div>
 
           {/* Inputs de Armadura e Escudo */}
           <div className="armaduras">

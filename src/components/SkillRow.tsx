@@ -11,6 +11,8 @@ interface SkillRowProps {
   attribute: AttrKey;
   trained: boolean;
   value: number;
+  nivel: number;
+
   onChange: (name: string, key: "trained" | "atr", val: boolean | AttrKey) => void;
 }
 
