@@ -422,6 +422,16 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children, isFlipped = false }) => {
               onChange={(e) => handleAttrChange("car", e.target.value)}
             />
           </div>
+          {/* Nível */}
+<div className="level">
+  <input
+    id="nivel"
+    type="number"
+    value={nivel}
+    onChange={(e) => setNivel(Number(e.target.value) || 0)}
+  />
+</div>
+
 
           {/* HP */}
           <div className="hp">
