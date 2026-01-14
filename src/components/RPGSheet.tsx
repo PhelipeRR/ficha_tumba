@@ -142,6 +142,10 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children, isFlipped = false }) => {
       if (typeof data?.selectedDeus === "string")
         setSelectedDeus(data.selectedDeus);
       if (typeof data?.nome === "string") setNome(data.nome);
+      if (typeof data?.spells === "string") setSpells(data.spells);
+      if (typeof data?.poderes === "string") setPoderes(data.poderes);
+      if (typeof data?.anotacoes === "string") setAnotacoes(data.anotacoes);
+
       if (Array.isArray(data?.skills)) {
         const byName: Record<string, { atr: AttrKey; trained: boolean }> = {};
         data.skills.forEach((s: any) => {
@@ -167,15 +171,29 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children, isFlipped = false }) => {
         selectedClass,
         selectedDeus,
         nome,
+        spells,
+        poderes,
+        anotacoes,
         skills: skills.map(({ nome, atr, trained }) => ({
           nome,
           atr,
           trained,
         })),
       };
+
       localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
     } catch {}
-  }, [attrs, nivel, selectedClass, selectedDeus, nome, skills]);
+  }, [
+    attrs,
+    nivel,
+    selectedClass,
+    selectedDeus,
+    nome,
+    spells,
+    poderes,
+    anotacoes,
+    skills,
+  ]);
 
   const handleClassSelect = (classe: string) => {
     setSelectedClass(classe);
