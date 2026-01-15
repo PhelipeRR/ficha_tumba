@@ -142,6 +142,21 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children, isFlipped = false }) => {
       if (typeof data?.selectedDeus === "string")
         setSelectedDeus(data.selectedDeus);
       if (typeof data?.nome === "string") setNome(data.nome);
+      if (typeof data?.raca === "string") setRaca(data.raca);
+      if (typeof data?.origem === "string") setOrigem(data.origem);
+      if (typeof data?.jogador === "string") setJogador(data.jogador);
+
+      if (data?.armadura) setArmadura(data.armadura);
+      if (data?.escudo) setEscudo(data.escudo);
+
+      if (data?.arma1) setArma1(data.arma1);
+      if (data?.arma2) setArma2(data.arma2);
+      if (data?.arma3) setArma3(data.arma3);
+      if (data?.arma4) setArma4(data.arma4);
+
+      if (typeof data?.hpOffset === "number") setHpOffset(data.hpOffset);
+      if (typeof data?.manaOffset === "number") setManaOffset(data.manaOffset);
+
       if (typeof data?.spells === "string") setSpells(data.spells);
       if (typeof data?.poderes === "string") setPoderes(data.poderes);
       if (typeof data?.anotacoes === "string") setAnotacoes(data.anotacoes);
@@ -171,9 +186,25 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children, isFlipped = false }) => {
         selectedClass,
         selectedDeus,
         nome,
+        raca,
+        origem,
+        jogador,
+
         spells,
         poderes,
         anotacoes,
+
+        armadura,
+        escudo,
+
+        arma1,
+        arma2,
+        arma3,
+        arma4,
+
+        hpOffset,
+        manaOffset,
+
         skills: skills.map(({ nome, atr, trained }) => ({
           nome,
           atr,
@@ -189,9 +220,20 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children, isFlipped = false }) => {
     selectedClass,
     selectedDeus,
     nome,
+    raca,
+    origem,
+    jogador,
     spells,
     poderes,
     anotacoes,
+    armadura,
+    escudo,
+    arma1,
+    arma2,
+    arma3,
+    arma4,
+    hpOffset,
+    manaOffset,
     skills,
   ]);
 
