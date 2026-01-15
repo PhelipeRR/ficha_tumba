@@ -150,7 +150,7 @@ select {
   aspect-ratio: 210 / 297;
   /* background-image moved to children */
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
-  border-radius: 16px;
+  border-radius: 0px;
   font-size: clamp(10px, 1.1vw, 16px);
   font-family: "Sherwood", serif;
   perspective: 2000px; /* Enable 3D space */
@@ -176,7 +176,7 @@ select {
   height: 100%;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  border-radius: 16px;
+  border-radius: 0px;
   background-size: cover;
   background-position: center;
   overflow: hidden;
@@ -1217,4 +1217,19 @@ input.filled {
   .poderes-textarea {
     width: 108.5%;
   }
+  .attr input {
+    font-size: 4.5em !important; 
+  }
+  .attr.forca {
+  top: 13.9%;
+  right: 11.3%;
+  }
+  .attr.destreza {
+  top: 11.1%;
+  right: 24.5%;
+  }
+  .attr.inteligencia {
+  top: 19.8%;
+  right: 48.5%;
+}
 }
