@@ -75,6 +75,7 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children, isFlipped = false }) => {
   );
   const [hpOffset, setHpOffset] = useState(0);
   const [manaOffset, setManaOffset] = useState(0);
+const [isHydrated, setIsHydrated] = useState(false);
 
   const [selectedClass, setSelectedClass] = useState<string>("");
   const [selectedDeus, setSelectedDeus] = useState<string>("");
@@ -82,6 +83,7 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children, isFlipped = false }) => {
   const [raca, setRaca] = useState("");
   const [origem, setOrigem] = useState("");
   const [jogador, setJogador] = useState("");
+  
   const [armadura, setArmadura] = useState({
     nome: "",
     defesa: 0,
@@ -131,54 +133,60 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children, isFlipped = false }) => {
 
   // Carregar estado salvo
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return;
-      const data = JSON.parse(raw);
-      if (data?.attrs) setAttrs((prev) => ({ ...prev, ...data.attrs }));
-      if (typeof data?.nivel === "number") setNivel(data.nivel);
-      if (typeof data?.selectedClass === "string")
-        setSelectedClass(data.selectedClass);
-      if (typeof data?.selectedDeus === "string")
-        setSelectedDeus(data.selectedDeus);
-      if (typeof data?.nome === "string") setNome(data.nome);
-      if (typeof data?.raca === "string") setRaca(data.raca);
-      if (typeof data?.origem === "string") setOrigem(data.origem);
-      if (typeof data?.jogador === "string") setJogador(data.jogador);
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
 
-      if (data?.armadura) setArmadura(data.armadura);
-      if (data?.escudo) setEscudo(data.escudo);
+    const data = JSON.parse(raw);
 
-      if (data?.arma1) setArma1(data.arma1);
-      if (data?.arma2) setArma2(data.arma2);
-      if (data?.arma3) setArma3(data.arma3);
-      if (data?.arma4) setArma4(data.arma4);
+    if (data?.attrs) setAttrs((prev) => ({ ...prev, ...data.attrs }));
+    if (typeof data?.nivel === "number") setNivel(data.nivel);
+    if (typeof data?.selectedClass === "string") setSelectedClass(data.selectedClass);
+    if (typeof data?.selectedDeus === "string") setSelectedDeus(data.selectedDeus);
+    if (typeof data?.nome === "string") setNome(data.nome);
+    if (typeof data?.raca === "string") setRaca(data.raca);
+    if (typeof data?.origem === "string") setOrigem(data.origem);
+    if (typeof data?.jogador === "string") setJogador(data.jogador);
 
-      if (typeof data?.hpOffset === "number") setHpOffset(data.hpOffset);
-      if (typeof data?.manaOffset === "number") setManaOffset(data.manaOffset);
+    if (data?.armadura) setArmadura(data.armadura);
+    if (data?.escudo) setEscudo(data.escudo);
 
-      if (typeof data?.spells === "string") setSpells(data.spells);
-      if (typeof data?.poderes === "string") setPoderes(data.poderes);
-      if (typeof data?.anotacoes === "string") setAnotacoes(data.anotacoes);
+    if (data?.arma1) setArma1(data.arma1);
+    if (data?.arma2) setArma2(data.arma2);
+    if (data?.arma3) setArma3(data.arma3);
+    if (data?.arma4) setArma4(data.arma4);
 
-      if (Array.isArray(data?.skills)) {
-        const byName: Record<string, { atr: AttrKey; trained: boolean }> = {};
-        data.skills.forEach((s: any) => {
-          if (s?.nome && s?.atr)
-            byName[s.nome] = { atr: s.atr, trained: !!s.trained };
-        });
-        setSkills((prev) =>
-          prev.map((s) => ({
-            ...s,
-            atr: byName[s.nome]?.atr ?? s.atr,
-            trained: byName[s.nome]?.trained ?? s.trained,
-          }))
-        );
-      }
-    } catch {}
-  }, []);
+    if (typeof data?.hpOffset === "number") setHpOffset(data.hpOffset);
+    if (typeof data?.manaOffset === "number") setManaOffset(data.manaOffset);
+
+    if (typeof data?.spells === "string") setSpells(data.spells);
+    if (typeof data?.poderes === "string") setPoderes(data.poderes);
+    if (typeof data?.anotacoes === "string") setAnotacoes(data.anotacoes);
+
+    if (Array.isArray(data?.skills)) {
+      const byName: Record<string, { atr: AttrKey; trained: boolean }> = {};
+      data.skills.forEach((s: any) => {
+        if (s?.nome && s?.atr) byName[s.nome] = { atr: s.atr, trained: !!s.trained };
+      });
+      setSkills((prev) =>
+        prev.map((s) => ({
+          ...s,
+          atr: byName[s.nome]?.atr ?? s.atr,
+          trained: byName[s.nome]?.trained ?? s.trained,
+        }))
+      );
+    }
+  } catch {
+  } finally {
+    setIsHydrated(true);
+  }
+}, []);
+
 
   useEffect(() => {
+    if (!isHydrated) return;
+
+
     try {
       const payload = {
         attrs,
@@ -633,15 +641,9 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children, isFlipped = false }) => {
 
           {/* Inputs de Armadura e Escudo */}
           <div className="armaduras">
-            <EquipamentoInput
-              tipo="Armadura"
-              onChange={(data) => setArmadura(data)}
-            />
+            <EquipamentoInput tipo="Armadura" value={armadura} onChange={setArmadura} />
+<EquipamentoInput tipo="Escudo" value={escudo} onChange={setEscudo} />
 
-            <EquipamentoInput
-              tipo="Escudo"
-              onChange={(data) => setEscudo(data)}
-            />
           </div>
 
           {/* Total de Armadura e Escudo */}

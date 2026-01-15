@@ -1,76 +1,55 @@
-import React, { useState } from "react";
+import React from "react";
+
+type Equipamento = {
+  nome: string;
+  defesa: number;
+  penalidade: number;
+  rd: number;
+};
 
 interface Props {
   tipo: "Armadura" | "Escudo";
-  onChange?: (data: {
-    nome: string;
-    defesa: number;
-    penalidade: number;
-    rd: number;
-  }) => void;
+  value: Equipamento;
+  onChange: (data: Equipamento) => void;
 }
 
-const EquipamentoInput: React.FC<Props> = ({ tipo, onChange }) => {
-  const [nome, setNome] = useState("");
-  const [defesa, setDefesa] = useState("");
-  const [penalidade, setPenalidade] = useState("");
-  const [rd, setRd] = useState("");
-
-  const update = (field: string, value: string) => {
-    const novo = {
-      nome: field === "nome" ? value : nome,
-      defesa: field === "defesa" ? Number(value) || 0 : Number(defesa) || 0,
-      penalidade: field === "penalidade" ? Number(value) || 0 : Number(penalidade) || 0,
-      rd: field === "rd" ? Number(value) || 0 : Number(rd) || 0,
-    };
-
-    onChange?.(novo);
-  };
-
+const EquipamentoInput: React.FC<Props> = ({ tipo, value, onChange }) => {
   return (
     <div className="flex gap-3 items-end equipamento-inputs">
       <input
         type="text"
-        className={`nomeEquip ${nome ? "filled" : ""}`}
+        className={`nomeEquip ${value.nome ? "filled" : ""}`}
         placeholder={tipo}
-        value={nome}
-        onChange={(e) => {
-          setNome(e.target.value);
-          update("nome", e.target.value);
-        }}
+        value={value.nome}
+        onChange={(e) => onChange({ ...value, nome: e.target.value })}
       />
 
       <input
         type="number"
-        className={`defEquip ${defesa ? "filled" : ""}`}
+        className={`defEquip ${value.defesa ? "filled" : ""}`}
         placeholder="Def"
-        value={defesa}
-        onChange={(e) => {
-          setDefesa(e.target.value);
-          update("defesa", e.target.value);
-        }}
+        value={value.defesa === 0 ? "" : String(value.defesa)}
+        onChange={(e) =>
+          onChange({ ...value, defesa: Number(e.target.value) || 0 })
+        }
       />
 
       <input
         type="number"
-        className={`penEquip ${penalidade ? "filled" : ""}`}
+        className={`penEquip ${value.penalidade ? "filled" : ""}`}
         placeholder="Pen"
-        value={penalidade}
-        onChange={(e) => {
-          setPenalidade(e.target.value);
-          update("penalidade", e.target.value);
-        }}
+        value={value.penalidade === 0 ? "" : String(value.penalidade)}
+        onChange={(e) =>
+          onChange({ ...value, penalidade: Number(e.target.value) || 0 })
+        }
       />
 
       <input
         type="number"
-        className={`rdEquip ${rd ? "filled" : ""}`}
+        className={`rdEquip ${value.rd ? "filled" : ""}`}
         placeholder="RD"
-        value={rd}
-        onChange={(e) => {
-          setRd(e.target.value);
-          update("rd", e.target.value);
-        }}
+        value={value.rd === 0 ? "" : String(value.rd)}
+        onChange={(e) => onChange({ ...value, rd: Number(e.target.value) || 0 })}
       />
     </div>
   );

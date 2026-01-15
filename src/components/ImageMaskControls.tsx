@@ -27,8 +27,8 @@ const ImageMaskControls: React.FC<ImageMaskControlsProps> = ({
         <input
           id="posX"
           type="range"
-          min="-100"
-          max="100"
+          min="-300"
+          max="300"
           value={posX}
           onChange={(e) => onPosXChange(Number(e.target.value))}
           className="w-full"
@@ -41,8 +41,8 @@ const ImageMaskControls: React.FC<ImageMaskControlsProps> = ({
         <input
           id="posY"
           type="range"
-          min="-100"
-          max="100"
+          min="-300"
+          max="300"
           value={posY}
           onChange={(e) => onPosYChange(Number(e.target.value))}
           className="w-full"
@@ -55,8 +55,8 @@ const ImageMaskControls: React.FC<ImageMaskControlsProps> = ({
         <input
           id="zoom"
           type="range"
-          min="80"
-          max="200"
+          min="50"
+          max="500"
           value={zoom}
           onChange={(e) => onZoomChange(Number(e.target.value))}
           className="w-full"
