@@ -13,6 +13,10 @@ import WeaponInputs from "./ArmaInput";
 import ReusableInput from "./RacaOrigem";
 import ReusableTextarea from "./ReusableTextArea";
 
+import { useHP } from "./hooks/useHP";
+import { useMana } from "./hooks/useMana";
+import { useSheetStorage } from "./hooks/useSheetStorage";
+
 const SKILLS: SkillBase[] = [
   { nome: "Acrobacia", atr: "des" },
   { nome: "Adestramento", atr: "car" },
@@ -65,11 +69,13 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children, isFlipped = false }) => {
   const [spells, setSpells] = useState("");
   const [anotacoes, setAnotacoes] = useState("");
   const [poderes, setPoderes] = useState("");
-
   const [nivel, setNivel] = useState(0);
   const [skills, setSkills] = useState<(SkillBase & { trained: boolean })[]>(
     SKILLS.map((s) => ({ ...s, trained: false }))
   );
+  const [hpOffset, setHpOffset] = useState(0);
+  const [manaOffset, setManaOffset] = useState(0);
+
   const [selectedClass, setSelectedClass] = useState<string>("");
   const [selectedDeus, setSelectedDeus] = useState<string>("");
   const [nome, setNome] = useState<string>("");
@@ -269,6 +275,9 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children, isFlipped = false }) => {
     return classe.porNivel * nivelValido + modAtributo;
   }, [selectedClass, attrs, nivel]);
 
+  const hpTotal = computedVida + hpOffset;
+  const manaTotal = computedMana + manaOffset;
+
   const computedSkills = useMemo(() => {
     const profBonus =
       nivel >= 1 && nivel <= 6
@@ -338,6 +347,7 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children, isFlipped = false }) => {
                 trained={skill.trained}
                 value={skill.value}
                 onChange={handleSkillChange}
+                nivel={nivel}
               />
             ))}
           </div>
@@ -413,17 +423,6 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children, isFlipped = false }) => {
               onChange={(e) => handleAttrChange("car", e.target.value)}
             />
           </div>
-
-          {/* HP */}
-          <div className="hp">
-            <input id="hp" type="number" value={computedVida} readOnly />
-          </div>
-
-          {/* Mana */}
-          <div className="mana">
-            <input id="mana" type="number" value={computedMana} readOnly />
-          </div>
-
           {/* Nível */}
           <div className="level">
             <input
@@ -434,22 +433,30 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children, isFlipped = false }) => {
             />
           </div>
 
-          {/* Proficiência */}
-          <div className="proficiencia">
-            <input
-              id="proficiencia"
-              type="text" // muda pra text pra exibir o "+"
-              value={
-                nivel >= 1 && nivel <= 6
-                  ? "+2"
-                  : nivel >= 7 && nivel <= 14
-                  ? "+4"
-                  : nivel >= 15
-                  ? "+6"
-                  : "+0"
-              }
-              readOnly
-            />
+          {/* HP */}
+          <div className="hp">
+            <button type="button" onClick={() => setHpOffset((v) => v - 1)}>
+              -
+            </button>
+
+            <input id="hp" type="number" value={hpTotal} readOnly />
+
+            <button type="button" onClick={() => setHpOffset((v) => v + 1)}>
+              +
+            </button>
+          </div>
+
+          {/* Mana */}
+          <div className="mana">
+            <button type="button" onClick={() => setManaOffset((v) => v - 1)}>
+              -
+            </button>
+
+            <input id="mana" type="number" value={manaTotal} readOnly />
+
+            <button type="button" onClick={() => setManaOffset((v) => v + 1)}>
+              +
+            </button>
           </div>
 
           <ReusableInput
@@ -545,6 +552,24 @@ const RPGSheet: React.FC<RPGSheetProps> = ({ children, isFlipped = false }) => {
             weapon={arma4}
             onChange={setArma4}
           />
+
+          {/* Proficiência */}
+          <div className="proficiencia">
+            <input
+              id="proficiencia"
+              type="text"
+              readOnly
+              value={
+                nivel >= 1 && nivel <= 6
+                  ? "+2"
+                  : nivel >= 7 && nivel <= 14
+                  ? "+4"
+                  : nivel >= 15
+                  ? "+6"
+                  : "+0"
+              }
+            />
+          </div>
 
           {/* Inputs de Armadura e Escudo */}
           <div className="armaduras">
