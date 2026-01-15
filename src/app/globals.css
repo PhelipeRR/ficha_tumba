@@ -1191,5 +1191,30 @@ input.filled {
   .flex.gap-3.items-end.equipamento-inputs{
     margin-top: 25px;
   }
-
+  .mana {
+    bottom: 43.6em;
+    right: 30.6em;
+  }
+  .mana button {
+    display: none !important;
+  }
+  .nome_personagem{
+    top: 1.83em;
+    left: 2.8em;
+  }
+  .nome_personagem input{
+    font-size: 1.9em;
+  }
+  select#classes_icon {
+    font-size: 1.3em;
+  }
+  .magia-textarea{
+    width: 108% !important;
+  }
+  .reusable-textarea {
+    font-size: 13.5px;
+  }
+  .poderes-textarea {
+    width: 108.5%;
+  }
 }
