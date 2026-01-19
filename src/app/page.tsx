@@ -130,6 +130,36 @@ export default function Home() {
                 >
                   {isFlipped ? "Voltar para Frente" : "Ir para o Verso"}
                 </button>
+                <button
+                  type="button"
+                  onClick={async () => {
+                    const url =
+                      "https://allmoving.com.br/wp-content/uploads/2026/01/ficha_equipamentos.png";
+
+                    try {
+                      const res = await fetch(url);
+                      if (!res.ok) throw new Error(String(res.status));
+
+                      const blob = await res.blob();
+                      const blobUrl = window.URL.createObjectURL(blob);
+
+                      const a = document.createElement("a");
+                      a.href = blobUrl;
+                      a.download = "ficha_equipamentos.png";
+                      document.body.appendChild(a);
+                      a.click();
+                      a.remove();
+
+                      window.URL.revokeObjectURL(blobUrl);
+                    } catch {
+                      // Se CORS bloquear o fetch, abre o link direto
+                      window.open(url, "_blank", "noopener,noreferrer");
+                    }
+                  }}
+                  className="w-full bg-[#1f2937] text-white rounded-md px-4 py-2 transition-opacity hover:opacity-90 mt-2"
+                >
+                  Baixar ficha de equipamentos
+                </button>
               </section>
             </div>
           </div>
