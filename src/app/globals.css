@@ -1207,13 +1207,15 @@ input.filled {
     font-size: 1.3em;
   }
   .magia-textarea {
-    width: 107% !important;
+    margin-top: 5px;
+    width: 107.2% !important;
   }
   .reusable-textarea {
-    font-size: 13.5px;
+    font-size: 12px;
   }
   .poderes-textarea {
-    width: 108.2%;
+    margin-top: 5px;
+    width: 107.4%;
   }
   .attr input {
     font-size: 4.5em !important;
